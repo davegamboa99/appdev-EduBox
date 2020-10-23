@@ -1,3 +1,3 @@
 # appdev-EduBox
 
-An project in Applications Development 
+A project in Applications Development 
