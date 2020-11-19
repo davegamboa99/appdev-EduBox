@@ -33,7 +33,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/group1"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:text="Automata Theory"
@@ -41,7 +41,7 @@
                     app:backgroundTint="#006FFF" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/group2"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:text="Application Development"
@@ -49,7 +49,7 @@
                     app:backgroundTint="#21FF00" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/group3"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:text="Data Communications"
