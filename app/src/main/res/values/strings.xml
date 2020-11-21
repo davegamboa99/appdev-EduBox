@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">EduBox</string>
+    <string name="notification">Notifications</string>
+    <string name="speech">speech</string>
+    <string name="leftIcon">lefticon</string>
+    <string name="completed">completed</string>
+    <string name="read">read</string>
+    <string name="border">border</string>
+    <string name="textview">TextView</string>
+    <string name="event_title">Event Title</string>
+    <string name="event_date">Event Date</string>
+    <string name="event_time">Event Time</string>
+    <string name="event_content">Event Content</string>
+    <string name="event_info">Event Info</string>
+    <string name="event_button">Event Button</string>
 </resources>
