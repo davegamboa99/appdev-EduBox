@@ -11,6 +11,15 @@
         android:theme="@style/Theme.EduBox">
         <activity android:name=".NotificationView"/>
         <activity android:name=".Notifications" >
+        <activity android:name=".GroupCalendar"></activity>
+        <activity android:name=".PersonalCalendar" />
+        <activity
+            android:name=".EventAdd"
+            android:parentActivityName=".PersonalCalendar" />
+        <activity android:name=".GroupJoin" />
+        <activity android:name=".GroupCreate" />
+        <activity android:name=".Groups" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
