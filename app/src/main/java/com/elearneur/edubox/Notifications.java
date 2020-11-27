@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Notifications extends AppCompatActivity implements EventAdaptor.ItemClicked{
-    public static ArrayList<Event> events;
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerView.Adapter myAdapter;
+public class Notifications extends AppCompatActivity implements NotificationAdaptor.ItemClicked{
+    private static ArrayList<Event> events;
+    RecyclerView notificationRecyclerView;
+    RecyclerView.LayoutManager notificationLayoutManager;
+    RecyclerView.Adapter notificationAdapter;
 
 
     @Override
@@ -35,14 +35,14 @@ public class Notifications extends AppCompatActivity implements EventAdaptor.Ite
         ImageView textToSpeech = findViewById(R.id.speech);
         ImageView completed = findViewById(R.id.completed);
 
-        recyclerView = findViewById(R.id.eventList);
-        recyclerView.setHasFixedSize(true);
+        notificationRecyclerView = findViewById(R.id.eventList);
+        notificationRecyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        notificationLayoutManager = new LinearLayoutManager(this);
+        notificationRecyclerView.setLayoutManager(notificationLayoutManager);
 
-        myAdapter = new EventAdaptor(this, Notifications.events);
-        recyclerView.setAdapter(myAdapter);
+        notificationAdapter = new NotificationAdaptor(this, Notifications.events);
+        notificationRecyclerView.setAdapter(notificationAdapter);
 
 
 

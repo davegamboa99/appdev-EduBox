@@ -13,4 +13,10 @@
     <string name="event_content">Event Content</string>
     <string name="event_info">Event Info</string>
     <string name="event_button">Event Button</string>
+    <string name="number_picker_formatter" />
+    <string name="time">07:30 am</string>
+    <string name="progressCircle">TODO</string>
+    <string name="eventTitleCalendar">MS Teams Meeting</string>
+    <string name="eventSubTitleCalendar">Automata Theory</string>
+    <string name="bullet">bullet</string>
 </resources>

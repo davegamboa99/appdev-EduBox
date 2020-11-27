@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class EventAdaptor extends RecyclerView.Adapter<EventAdaptor.ViewHolder> {
+public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdaptor.ViewHolder> {
     private ArrayList<Event> events;
 
     private ItemClicked activity;
@@ -21,7 +21,7 @@ public class EventAdaptor extends RecyclerView.Adapter<EventAdaptor.ViewHolder> 
         void onItemClicked(int index);
     }
 
-    public EventAdaptor(Context context, ArrayList<Event> list){
+    public NotificationAdaptor(Context context, ArrayList<Event> list){
         events = list;
         activity = (ItemClicked) context;
     }
@@ -64,13 +64,13 @@ public class EventAdaptor extends RecyclerView.Adapter<EventAdaptor.ViewHolder> 
 
     @NonNull
     @Override
-    public EventAdaptor.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotificationAdaptor.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventAdaptor.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NotificationAdaptor.ViewHolder holder, int position) {
         holder.itemView.setTag(events.get(position));
         holder.eventTitle.setText(events.get(position).getTitle());
         holder.eventContent.setText(events.get(position).getContentType());
