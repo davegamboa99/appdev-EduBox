@@ -18,16 +18,20 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
+
 public class PersonalCalendar extends AppCompatActivity {
-    private Toolbar toolbar;
-    private FloatingActionButton addevent;
-    private TextView event001;
-    private Dialog editevent;
+    public static PCalendar pCalendar = new PCalendar();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_calendar);
+
+        Toolbar toolbar;
+        FloatingActionButton addevent;
+        TextView event001;
+        Dialog editevent;
 
         toolbar = findViewById(R.id.toolbar_calendar);
         setSupportActionBar(toolbar);
@@ -39,6 +43,8 @@ public class PersonalCalendar extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventAdd.class);
+                intent.putExtra("calendar", 0);
+                intent.putExtra("calName", "Personal Calendar");
                 startActivity(intent);
             }
         });
