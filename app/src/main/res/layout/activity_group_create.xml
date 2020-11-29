@@ -14,7 +14,7 @@
         android:padding="50dp">
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/group_create_input"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_input"
@@ -27,7 +27,7 @@
             android:paddingRight="20dp" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/group_create_btn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"

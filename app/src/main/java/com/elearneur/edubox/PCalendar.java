@@ -12,26 +12,58 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class PCalendar extends Calendar {
-    private TreeSet<GroupCalendar> groups;
+    private TreeSet<GCalendar> groups;
     
     public PCalendar(){
         groups = new TreeSet<>();
         isShareable = false;
     }
 
-    public void addGroup(GroupCalendar group){
+    public void addGroup(GCalendar group){
         groups.add(group);
     }
 
-    public void removeGroup(GroupCalendar group){
+    public GCalendar getGroup(GCalendar gcal){
+        GCalendar cal = null;
+        for (GCalendar group : groups){
+            if (group.equals(gcal)){
+                cal = group;
+            }
+        }
+        return cal;
+    }
+
+    public void removeGroup(GCalendar group){
         groups.remove(group);
     }
 
+    public TreeSet<GCalendar> getGroups(){
+        return groups;
+    }
+
+    public String toStringGroups(){
+        String s = "Groups[";
+        for (GCalendar group : groups){
+            s += group.getGroupName() + ",";
+        }
+        return s + "]";
+    }
+
     public String toString(){
-        String s = "Calendar[";
+        String s = "PCalendar[";
         for (CalEvent evt : events){
             s += evt + ",";
         }
+        s += "]\nGCalendar[";
+        for (GCalendar gcal : groups){
+            s += gcal.getGroupName() + "[";
+            TreeSet<CalEvent> evts = gcal.getEvents();
+            for (CalEvent evt : evts){
+                s += evt + ",";
+            }
+            s += "],";
+        }
+
         return s += "]";
     }
 

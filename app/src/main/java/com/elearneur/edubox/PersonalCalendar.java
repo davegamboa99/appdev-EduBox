@@ -21,12 +21,20 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.IOException;
 
 public class PersonalCalendar extends AppCompatActivity {
-    public static PCalendar pCalendar = new PCalendar();
+    public static PCalendar pcal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_calendar);
+
+        try {
+            pcal = PCalendar.loadCalendar(getApplicationContext());
+        } catch (IOException e) {
+            pcal = new PCalendar();
+        } catch (ClassNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
+        }
 
         Toolbar toolbar;
         FloatingActionButton addevent;
@@ -43,8 +51,7 @@ public class PersonalCalendar extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventAdd.class);
-                intent.putExtra("calendar", 0);
-                intent.putExtra("calName", "Personal Calendar");
+                intent.putExtra("calendar", pcal);
                 startActivity(intent);
             }
         });

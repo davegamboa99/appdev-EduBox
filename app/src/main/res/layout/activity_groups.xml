@@ -24,12 +24,13 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="28dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/groups_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="28dp"
                 android:orientation="vertical">
 
                 <Button

@@ -3,34 +3,40 @@ package com.elearneur.edubox;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
+import java.util.TreeSet;
+
 public class Groups extends AppCompatActivity {
-    private FloatingActionButton creategroup, joingroup, addgroup;
     private boolean optionsAreVisible = false;
-    private Button group1,group2,group3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
+        FloatingActionButton creategroup, joingroup, addgroup;
+
         creategroup = findViewById(R.id.creategroup);
         joingroup = findViewById(R.id.joingroup);
         addgroup = findViewById(R.id.addgroup);
-        group1 = findViewById(R.id.group1);
-        group2 = findViewById(R.id.group2);
-        group3 = findViewById(R.id.group3);
+
+        loadGroups();
 
         creategroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GroupCreate.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -56,29 +62,42 @@ public class Groups extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        group1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
-                startActivity(intent);
-            }
-        });
+    private void loadGroups(){
+        LinearLayout groups_container;
+        Button item;
+//        Color[] colors = new Color[3];
 
-        group2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
-                startActivity(intent);
-            }
-        });
+//        colors[0] = Color.valueOf(Color.BLUE);
+//        colors[1] = Color.valueOf(Color.GREEN);
+//        colors[2] = Color.valueOf(Color.YELLOW);
 
-        group3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
-                startActivity(intent);
+        groups_container = findViewById(R.id.groups_container);
+        groups_container.removeAllViews();
+        try {
+            PCalendar cal = PCalendar.loadCalendar(getApplicationContext());
+            TreeSet<GCalendar> groups = cal.getGroups();
+            for (GCalendar group : groups){
+                LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.groups_item, null);
+                item = newView.findViewById(R.id.groups_item_item);
+                item.setText(group.getGroupName());
+                // set item background tint
+                item.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
+                        intent.putExtra("calendar", group);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                groups_container.addView(newView);
             }
-        });
+        } catch (IOException e) {
+
+        } catch (ClassNotFoundException e) {
+
+        }
     }
 }

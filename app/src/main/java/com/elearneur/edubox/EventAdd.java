@@ -16,11 +16,14 @@ import android.widget.Toast;
 import java.io.IOException;
 
 public class EventAdd extends AppCompatActivity {
+    private Calendar cal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_add);
+
+        cal = (Calendar) getIntent().getSerializableExtra("calendar");
 
         Toolbar toolbar;
         EditText title, date, time, type, duration, note;
@@ -39,7 +42,9 @@ public class EventAdd extends AppCompatActivity {
         note = findViewById(R.id.event_input_note);
         add = findViewById(R.id.event_btn_add);
         msg = findViewById(R.id.event_add_msg);
-        String calName = getIntent().getStringExtra("calName");
+        String calName;
+        if (cal instanceof PCalendar) calName = "Personal Calendar";
+        else calName = ((GCalendar) cal).getGroupName();
         calName = "This event will be added under\n" + calName + ".";
         msg.setText(calName);
 
@@ -47,11 +52,12 @@ public class EventAdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int calId = getIntent().getIntExtra("calendar", -1);
-                Calendar cal = null;
+                PCalendar pcal = null;
+                GCalendar gcal;
                 try {
-                    cal = PCalendar.loadCalendar(getApplicationContext());
+                    pcal = PCalendar.loadCalendar(getApplicationContext());
                 } catch (IOException e) {
-                    cal = new PCalendar();
+                    Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
                 } catch (ClassNotFoundException e) {
                     Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
                 }
@@ -67,14 +73,19 @@ public class EventAdd extends AppCompatActivity {
                 evt_duration = Float.parseFloat(evt_duration_string);
                 evt_note = note.getText().toString();
                 evt = new CalEvent(evt_title, evt_date, evt_time, evt_type, evt_duration, evt_note);
-                cal.addEvent(evt);
+                if (cal instanceof PCalendar){
+                    pcal.addEvent(evt);
+                } else {
+                    gcal = pcal.getGroup((GCalendar) cal);
+                    gcal.addEvent(evt);
+                }
                 try {
-                    ((PCalendar)cal).saveCalendar(getApplicationContext());
+                    pcal.saveCalendar(getApplicationContext());
                 } catch (IOException e) {
-                    System.out.println("MyError: " + e);
+                    Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
                 }
 
-                Toast.makeText(getApplicationContext(), cal.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), pcal.toString(), Toast.LENGTH_LONG).show();
                 finish();
             }
         });
