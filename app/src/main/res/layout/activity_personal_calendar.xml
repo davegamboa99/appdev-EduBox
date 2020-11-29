@@ -21,7 +21,7 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="Calendar" />
+            app:title="Personal Calendar" />
 
         <LinearLayout
             android:layout_width="300dp"
@@ -135,6 +135,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/events_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

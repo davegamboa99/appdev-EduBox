@@ -30,8 +30,8 @@
                 android:id="@+id/groups_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="28dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="28dp">
 
                 <Button
                     android:id="@+id/group1"
