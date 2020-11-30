@@ -33,6 +33,10 @@ public class GroupCalendar extends AppCompatActivity {
         setContentView(R.layout.activity_group_calendar);
 
         gcal = (GCalendar) getIntent().getSerializableExtra("calendar");
+        if (gcal == null) {
+            Toast.makeText(getApplicationContext(), "GCAL is NULL!", Toast.LENGTH_LONG).show();
+            finish();
+        }
 
         Toolbar toolbar;
         toolbar = findViewById(R.id.toolbar_group_calendar);

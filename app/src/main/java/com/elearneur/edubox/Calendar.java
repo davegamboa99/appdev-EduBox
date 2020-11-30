@@ -30,6 +30,17 @@ public class Calendar implements Serializable {
         return events;
     }
 
+    public CalEvent getEvent(CalEvent evt){
+        CalEvent e = null;
+        for (CalEvent event : events){
+            if (event.getTitle().equals(evt.getTitle())){
+                e = event;
+                break;
+            }
+        }
+        return e;
+    }
+
     public void showEvents() {
         for (CalEvent calEvent : events) {
             System.out.println(calEvent);
