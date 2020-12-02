@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/event_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
@@ -34,43 +35,43 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/event_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title: Zoom Meeting" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/event_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Date: 13 November 2020" />
 
             <TextView
-                android:id="@+id/textView25"
+                android:id="@+id/event_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Time: 09:30 am" />
 
             <TextView
-                android:id="@+id/textView26"
+                android:id="@+id/event_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Type: Video Meeting" />
 
             <TextView
-                android:id="@+id/textView27"
+                android:id="@+id/event_speed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Min. Speed Requirement: 800 kbps" />
 
             <TextView
-                android:id="@+id/textView28"
+                android:id="@+id/event_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Min. Data Consumption: 200 mb" />
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/event_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Note: Presentation of ERD and Class Diagram." />

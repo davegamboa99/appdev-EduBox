@@ -32,7 +32,7 @@
                 android:padding="40dp">
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName5"
+                    android:id="@+id/event_input_title"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/custom_input"
@@ -45,7 +45,7 @@
                     android:paddingRight="20dp" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName4"
+                    android:id="@+id/event_input_date"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
@@ -54,12 +54,12 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:hint="Pick a date"
-                    android:inputType="textPersonName"
+                    android:inputType="date"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName6"
+                    android:id="@+id/event_input_time"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
@@ -68,12 +68,12 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:hint="Pick a time"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|time"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName7"
+                    android:id="@+id/event_input_type"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
@@ -87,7 +87,7 @@
                     android:paddingRight="20dp" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName8"
+                    android:id="@+id/event_input_duration"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
@@ -96,12 +96,12 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:hint="Duration"
-                    android:inputType="textPersonName"
+                    android:inputType="numberDecimal"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName9"
+                    android:id="@+id/event_input_note"
                     android:layout_width="match_parent"
                     android:layout_height="107dp"
                     android:layout_marginTop="10dp"
@@ -119,7 +119,7 @@
                     android:layout_height="match_parent" />
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/event_btn_add"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="10dp"
@@ -128,7 +128,7 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/event_add_msg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
