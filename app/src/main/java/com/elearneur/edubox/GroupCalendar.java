@@ -3,8 +3,6 @@ package com.elearneur.edubox;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -23,49 +21,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.elearneur.edubox.Adapter.CalendarItemAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shawnlin.numberpicker.NumberPicker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import java.io.IOException;
+import java.util.Locale;
 import java.util.TreeSet;
 
 public class GroupCalendar extends AppCompatActivity {
     private GCalendar gcal;
     private Dialog editEvent;
 
-    private List<Event> events;
-    private List<TemporaryItem> list;
-
-    RecyclerView calendarItemRecyclerView;
-    RecyclerView.LayoutManager calendarItemLayoutManager;
-    RecyclerView.Adapter calendarItemAdapter;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_calendar);
-
-        gcal = (GCalendar) getIntent().getSerializableExtra("calendar");
-        if (gcal == null) {
-            finish();
-        }
-
-        Toolbar toolbar;
-        toolbar = findViewById(R.id.toolbar_group_calendar);
-        setSupportActionBar(toolbar);
-        if (gcal!=null) toolbar.setTitle(gcal.getGroupName().toUpperCase());
-
-        editEvent = new Dialog(this);
-
-        FloatingActionButton addgroupevent;
-
-        addgroupevent = findViewById(R.id.addgroupevent);
 
         //daypicker
         NumberPicker dayPicker = findViewById(R.id.day_picker);
@@ -94,30 +64,21 @@ public class GroupCalendar extends AppCompatActivity {
         });
 
 
-        //dummy data for eventlist
-        events = new ArrayList<Event>();
-        events.add(new Event("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", true, true));
-        events.add(new Event("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", false,true));
-        events.add(new Event("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", false,true));
-        events.add(new Event("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", false,true));
+        gcal = (GCalendar) getIntent().getSerializableExtra("calendar");
+        if (gcal == null) {
+            finish();
+        }
 
-        list = new ArrayList<TemporaryItem>();
-        list.add(new TemporaryItem("7:35 AM",events,events.size()));
-        list.add(new TemporaryItem("8:35 AM",events,events.size()));
-        list.add(new TemporaryItem("9:35 AM",events,events.size()));
-        list.add(new TemporaryItem("10:35 AM",events,events.size()));
+        Toolbar toolbar;
+        toolbar = findViewById(R.id.toolbar_group_calendar);
+        setSupportActionBar(toolbar);
+        if (gcal!=null) toolbar.setTitle(gcal.getGroupName().toUpperCase());
 
-        calendarItemRecyclerView = findViewById(R.id.eventCalendarList);
-        calendarItemRecyclerView.setHasFixedSize(true);
+        editEvent = new Dialog(this);
 
-        calendarItemLayoutManager = new LinearLayoutManager(this);
-        calendarItemRecyclerView.setLayoutManager(calendarItemLayoutManager);
+        FloatingActionButton addgroupevent;
 
-        calendarItemAdapter = new CalendarItemAdapter(this,list);
-        calendarItemRecyclerView.setAdapter(calendarItemAdapter);
-
-
-
+        addgroupevent = findViewById(R.id.addgroupevent);
 
         addgroupevent.setOnClickListener(new View.OnClickListener() {
             @Override
