@@ -37,6 +37,11 @@ public class PersonalCalendar extends AppCompatActivity {
             pcal = PCalendar.loadCalendar(getApplicationContext());
         } catch (IOException e) {
             pcal = new PCalendar();
+            try {
+                pcal.saveCalendar(getApplicationContext());
+            } catch (IOException ioException) {
+                Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
+            }
         } catch (ClassNotFoundException e) {
             Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
         }
@@ -79,6 +84,7 @@ public class PersonalCalendar extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), EventAdd.class);
                 intent.putExtra("calendar", pcal);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -108,6 +114,7 @@ public class PersonalCalendar extends AppCompatActivity {
         LayoutInflater inflater = this.getLayoutInflater();
 
         TreeSet<CalEvent> evts = pcal.getEvents();
+        if (evts == null) return;
         for (CalEvent evt : evts){
             LinearLayout ll_time = (LinearLayout) inflater.inflate(R.layout.events_item_time, null);
             TextView evt_time = ll_time.findViewById(R.id.label_time);

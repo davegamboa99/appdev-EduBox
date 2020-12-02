@@ -2,6 +2,7 @@ package com.elearneur.edubox;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -96,20 +97,20 @@ public class Groups extends AppCompatActivity {
                         GCalendar[] gcals = JSONParser.getGCalendars();
                         for (GCalendar group : gcals){
                             pcal.addGroup(group);
-                            LinearLayout newView = (LinearLayout) inflater.inflate(R.layout.groups_item, null);
-                            Button item = newView.findViewById(R.id.groups_item_item);
-                            item.setText(group.getGroupName());
-                            // set item background tint
-                            item.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
-                                    intent.putExtra("calendar", group); // not working
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-                            groups_container.addView(newView);
+//                            LinearLayout newView = (LinearLayout) inflater.inflate(R.layout.groups_item, null);
+//                            Button item = newView.findViewById(R.id.groups_item_item);
+//                            item.setText(group.getGroupName());
+//                            // set item background tint
+//                            item.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
+//                                    intent.putExtra("calendar", group); // not working
+//                                    startActivity(intent);
+//                                    finish();
+//                                }
+//                            });
+//                            groups_container.addView(newView);
                         }
                     } catch (IOException e){
                         System.out.println("MyException1: " + e);

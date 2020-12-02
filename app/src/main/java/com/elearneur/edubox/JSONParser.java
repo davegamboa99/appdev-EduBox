@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 
@@ -66,7 +67,7 @@ public class JSONParser {
 
     public static boolean postEvent(CalEvent event) throws IOException {
         String json = gson.toJson(event);
-        // System.out.println("JSON = " + json);
+        System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
         urlString += ":8000/events/?format=json";

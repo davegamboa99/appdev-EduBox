@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -75,17 +76,20 @@ public class EventAdd extends AppCompatActivity {
                 evt = new CalEvent(evt_title, evt_date, evt_time, evt_type, evt_duration, evt_note);
                 if (cal instanceof PCalendar){
                     pcal.addEvent(evt);
+                    startActivity(new Intent(getApplicationContext(), PersonalCalendar.class));
                 } else {
                     gcal = pcal.getGroup((GCalendar) cal);
                     gcal.addEvent(evt);
+                    startActivity(new Intent(getApplicationContext(), Groups.class));
                 }
                 try {
+//                    JSONParser.postEvent(evt); // to be posted
                     pcal.saveCalendar(getApplicationContext());
                 } catch (IOException e) {
                     Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
                 }
 
-                Toast.makeText(getApplicationContext(), pcal.toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), pcal.toString(), Toast.LENGTH_LONG).show();
                 finish();
             }
         });

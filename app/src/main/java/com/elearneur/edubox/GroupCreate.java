@@ -53,7 +53,7 @@ public class GroupCreate extends AppCompatActivity {
                 } catch (IOException e) {
                     Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getApplicationContext(), cal.toStringGroups(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), cal.toStringGroups(), Toast.LENGTH_LONG).show();
                 finish();
                 startActivity(new Intent(getApplicationContext(), Groups.class));
             }
