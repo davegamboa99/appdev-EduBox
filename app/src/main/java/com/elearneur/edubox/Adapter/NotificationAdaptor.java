@@ -1,7 +1,7 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.Adapter;
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.elearneur.edubox.Event;
+import com.elearneur.edubox.NotificationView;
+import com.elearneur.edubox.R;
+
 import java.util.ArrayList;
 
 public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdaptor.ViewHolder> {
     private ArrayList<Event> events;
 
-    private ItemClicked activity;
-    public interface  ItemClicked{
-        void onItemClicked(int index);
-    }
-
-    public NotificationAdaptor(Context context, ArrayList<Event> list){
+    public NotificationAdaptor(ArrayList<Event> list){
         events = list;
-        activity = (ItemClicked) context;
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
@@ -35,6 +33,7 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
         TextView eventTime;
         int position;
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -44,12 +43,14 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
             eventInfo = itemView.findViewById(R.id.eventInfo);
             eventTime = itemView.findViewById(R.id.eventTime);
 
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     readBlock.setVisibility(View.INVISIBLE);
                     events.get(position).setRead(true);
-                    Intent intent = new Intent(itemView.getContext(),NotificationView.class);
+                    Intent intent = new Intent(itemView.getContext(), NotificationView.class);
                     intent.putExtra("eventTitle",eventTitle.getText());
                     intent.putExtra("eventContent",eventContent.getText());
                     intent.putExtra("eventInfo",eventInfo.getText());
@@ -58,6 +59,7 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                     itemView.getContext().startActivity(intent);
                 }
             });
+
 
         }
     }
@@ -78,6 +80,13 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
         holder.eventInfo.setText(events.get(position).getInfo());
         holder.readBlock.setVisibility(events.get(position).isRead() ? View.INVISIBLE: View.VISIBLE);
         holder.position = position;
+
+        if(events.get(position).isFinished()){
+            holder.eventTitle.setPaintFlags(holder.eventTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.eventContent.setPaintFlags(holder.eventContent.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.eventTime.setPaintFlags(holder.eventTime.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.eventInfo.setPaintFlags(holder.eventInfo.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
     }
 
     @Override

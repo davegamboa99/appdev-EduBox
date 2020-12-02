@@ -2,9 +2,9 @@ package com.elearneur.edubox;
 
 public class Event {
     private String date, time, title, info, contentType, timeRange;
-    private boolean read;
+    private boolean read, finished;
 
-    public Event(String date, String time, String title, String info, String contentType, String timeRange, boolean read) {
+    public Event(String date, String time, String title, String info, String contentType, String timeRange, boolean read , boolean finished) {
         this.date = date;
         this.time = time;
         this.title = title;
@@ -12,6 +12,15 @@ public class Event {
         this.contentType = contentType;
         this.timeRange = timeRange;
         this.read = read;
+        this.finished = finished;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     public String getDate() {

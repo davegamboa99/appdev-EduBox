@@ -19,4 +19,5 @@
     <string name="eventTitleCalendar">MS Teams Meeting</string>
     <string name="eventSubTitleCalendar">Automata Theory</string>
     <string name="bullet">bullet</string>
+    <string name="completed_events">Completed Events</string>
 </resources>

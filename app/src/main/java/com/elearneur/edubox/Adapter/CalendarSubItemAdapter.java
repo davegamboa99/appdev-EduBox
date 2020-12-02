@@ -1,10 +1,9 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.elearneur.edubox.Event;
+import com.elearneur.edubox.R;
+
 import java.util.List;
 
 public class CalendarSubItemAdapter extends RecyclerView.Adapter<CalendarSubItemAdapter.ViewHolder> {
