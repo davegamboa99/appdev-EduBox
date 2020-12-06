@@ -24,8 +24,6 @@ public class EventAdd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_add);
 
-        cal = (Calendar) getIntent().getSerializableExtra("calendar");
-
         Toolbar toolbar;
         EditText title, date, time, type, duration, note;
         Button add;
@@ -43,6 +41,9 @@ public class EventAdd extends AppCompatActivity {
         note = findViewById(R.id.event_input_note);
         add = findViewById(R.id.event_btn_add);
         msg = findViewById(R.id.event_add_msg);
+
+        cal = (Calendar) getIntent().getSerializableExtra("calendar");
+
         String calName;
         if (cal instanceof PCalendar) calName = "Personal Calendar";
         else calName = ((GCalendar) cal).getGroupName();
@@ -52,9 +53,10 @@ public class EventAdd extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int calId = getIntent().getIntExtra("calendar", -1);
                 PCalendar pcal = null;
                 GCalendar gcal;
+
+                //load pcal
                 try {
                     pcal = PCalendar.loadCalendar(getApplicationContext());
                 } catch (IOException e) {
@@ -62,6 +64,8 @@ public class EventAdd extends AppCompatActivity {
                 } catch (ClassNotFoundException e) {
                     Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
                 }
+
+                //instantiate an event
                 CalEvent evt;
                 String evt_title, evt_date, evt_time, evt_type, evt_note;
                 Float evt_duration;
@@ -69,11 +73,14 @@ public class EventAdd extends AppCompatActivity {
                 evt_date = date.getText().toString();
                 evt_time = time.getText().toString();
                 evt_type = type.getText().toString();
+
                 String evt_duration_string = duration.getText().toString();
                 if ("".equals(evt_duration_string)) evt_duration_string = "0";
+
                 evt_duration = Float.parseFloat(evt_duration_string);
                 evt_note = note.getText().toString();
                 evt = new CalEvent(evt_title, evt_date, evt_time, evt_type, evt_duration, evt_note);
+
                 if (cal instanceof PCalendar){
                     pcal.addEvent(evt);
                     startActivity(new Intent(getApplicationContext(), PersonalCalendar.class));
@@ -82,14 +89,31 @@ public class EventAdd extends AppCompatActivity {
                     gcal.addEvent(evt);
                     startActivity(new Intent(getApplicationContext(), Groups.class));
                 }
+
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONParser.postEvent(evt);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
                 try {
-//                    JSONParser.postEvent(evt); // to be posted
-                    pcal.saveCalendar(getApplicationContext());
-                } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
-//                Toast.makeText(getApplicationContext(), pcal.toString(), Toast.LENGTH_LONG).show();
+                //save calendar
+//                try {
+//                    pcal.saveCalendar(getApplicationContext());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+
                 finish();
             }
         });

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.stream.StreamSupport;
 
 public class Calendar implements Serializable {
-    protected long id;
+    protected int id;
     protected TreeSet<CalEvent> events;
     protected boolean isShareable;
 
@@ -14,11 +14,19 @@ public class Calendar implements Serializable {
         events = new TreeSet<>();
     }
 
+    public int getId(){
+        return id;
+    }
+
     public boolean getIsSharable(){
         return isShareable;
     }
 
     public void addEvent(CalEvent evt) {
+        if (events == null){
+            events = new TreeSet<>();
+        }
+        evt.setCalendar(id);
         boolean b = events.add(evt);
         if (b)
             System.out.println(evt.getTitle() + " successfully added");

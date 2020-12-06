@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.lang.Comparable;
 
 public class CalEvent implements Comparable<CalEvent>, Serializable {
-    private long eventId;
-    private long calendarId;
+    private int calendar;
+    private int eventId;
     private String title;
     private String date;
     private String time;
@@ -18,25 +18,41 @@ public class CalEvent implements Comparable<CalEvent>, Serializable {
         this.title = title;
         this.date = date;
         this.time = time;
-        this.content_type = content_type;
+        if (content_type == null) this.content_type = "";
+        else this.content_type = content_type;
         this.duration = duration;
-        this.note = note;
+        if (note == null) this.note = "";
+        else this.note = note;
     }
 
-    public void setEventId(long eventId){
+    public class JSONPostData {
+        private int calendar = CalEvent.this.calendar;
+        private String title = CalEvent.this.title;
+        private String date = CalEvent.this.date;
+        private String time = CalEvent.this.time;
+        private String content_type = CalEvent.this.content_type;
+        private float duration = CalEvent.this.duration;
+        private String note = CalEvent.this.note;
+
+        public void setCalendar(int calendarId){
+            this.calendar = calendarId;
+        }
+    }
+
+    public void setEventId(int eventId){
         this.eventId = eventId;
     }
 
-    public long getEventId(){
+    public int getEventId(){
         return eventId;
     }
 
-    public void setCalendarId(long calendarId){
-        this.calendarId = calendarId;
+    public void setCalendar(int calendarId){
+        this.calendar = calendarId;
     }
 
-    public long getCalendarId(){
-        return calendarId;
+    public long getCalendar(){
+        return calendar;
     }
 
     public String getTitle(){
@@ -64,9 +80,7 @@ public class CalEvent implements Comparable<CalEvent>, Serializable {
     }
 
     public int compareTo(CalEvent evt){
-        int comp = date.compareTo(evt.getDate());
-        if (comp >= 0) return 1;
-        else return -1;
+        return eventId - evt.getEventId();
     }
 
     public void setIsRead(boolean isRead){

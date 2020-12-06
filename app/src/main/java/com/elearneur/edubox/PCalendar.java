@@ -13,9 +13,11 @@ import java.util.Date;
 
 public class PCalendar extends Calendar {
     private TreeSet<GCalendar> groups;
+    private Account account;
     
     public PCalendar(){
         groups = new TreeSet<>();
+        account = new Account();
         isShareable = false;
     }
 
@@ -41,6 +43,10 @@ public class PCalendar extends Calendar {
         return groups;
     }
 
+    public Account getAccount(){
+        return account;
+    }
+
     public String toStringGroups(){
         String s = "Groups[";
         for (GCalendar group : groups){
@@ -51,17 +57,23 @@ public class PCalendar extends Calendar {
 
     public String toString(){
         String s = "PCalendar[";
-        for (CalEvent evt : events){
-            s += evt + ",";
-        }
-        s += "]\nGCalendar[";
-        for (GCalendar gcal : groups){
-            s += gcal.getGroupName() + "[";
-            TreeSet<CalEvent> evts = gcal.getEvents();
-            for (CalEvent evt : evts){
+        if (events != null){
+            for (CalEvent evt : events){
                 s += evt + ",";
             }
-            s += "],";
+        }
+        s += "]\nGCalendar[";
+        if (groups != null){
+            for (GCalendar gcal : groups){
+                s += gcal.getGroupName() + "[";
+                TreeSet<CalEvent> evts = gcal.getEvents();
+                if (evts != null){
+                    for (CalEvent evt : evts){
+                        s += evt + ",";
+                    }
+                }
+                s += "],";
+            }
         }
 
         return s += "]";

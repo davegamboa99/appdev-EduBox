@@ -33,8 +33,6 @@ public class Groups extends AppCompatActivity {
         joingroup = findViewById(R.id.joingroup);
         addgroup = findViewById(R.id.addgroup);
 
-        loadGroups();
-
         creategroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,82 +64,121 @@ public class Groups extends AppCompatActivity {
                 }
             }
         });
+
+        initPcal();
+        loadGroups();
+        savePcal();
     }
 
-    private void loadGroups(){
-        LinearLayout groups_container;
-        LayoutInflater inflater;
-//        Color[] colors = new Color[3];
-
-//        colors[0] = Color.valueOf(Color.BLUE);
-//        colors[1] = Color.valueOf(Color.GREEN);
-//        colors[2] = Color.valueOf(Color.YELLOW);
-
-        groups_container = findViewById(R.id.groups_container);
-        groups_container.removeAllViews();
-
+    private void initPcal(){
         try {
             pcal = PCalendar.loadCalendar(getApplicationContext());
         } catch (IOException e) {
-            System.out.println("MyException1: " + e);
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            System.out.println("MyException2: " + e);
+            e.printStackTrace();
         }
+    }
 
-        inflater = this.getLayoutInflater();
+    private void savePcal(){
         if (pcal != null){
-            Thread thread = new Thread(new Runnable() {
+            try {
+                pcal.saveCalendar(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void getGroupsFromServer(){
+        if (pcal != null){
+            Thread thread1 = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        GCalendar[] gcals = JSONParser.getGCalendars();
-                        for (GCalendar group : gcals){
-                            pcal.addGroup(group);
-//                            LinearLayout newView = (LinearLayout) inflater.inflate(R.layout.groups_item, null);
-//                            Button item = newView.findViewById(R.id.groups_item_item);
-//                            item.setText(group.getGroupName());
-//                            // set item background tint
-//                            item.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
-//                                    intent.putExtra("calendar", group); // not working
-//                                    startActivity(intent);
-//                                    finish();
-//                                }
-//                            });
-//                            groups_container.addView(newView);
+                        int userId = getIntent().getIntExtra("userId", 0);
+                        GCalendar[] gcals = JSONParser.getGCalendars(userId);
+                        if (gcals != null){
+                            for (GCalendar group : gcals){
+                                pcal.addGroup(group);
+                            }
                         }
                     } catch (IOException e){
-                        System.out.println("MyException1: " + e);
+                        e.printStackTrace();
                     } catch (Exception e){
-                        System.out.println("MyException2: " + e);
+                        e.printStackTrace();
                     }
                 }
             });
-            thread.start();
+            thread1.start();
             try {
-                thread.join();
+                thread1.join();
             } catch (InterruptedException e) {
-                System.out.println("MyException3: " + e);
+                e.printStackTrace();
             }
+        }
+    }
 
-            TreeSet<GCalendar> groups = pcal.getGroups();
+    public void getEventsFromServer(){
+        TreeSet<GCalendar> groups = pcal.getGroups();
+        if (groups != null){
             for (GCalendar group : groups){
-                LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.groups_item, null);
-                Button item = newView.findViewById(R.id.groups_item_item);
-                item.setText(group.getGroupName());
-                // set item background tint
-                item.setOnClickListener(new View.OnClickListener() {
+                Thread thread2 = new Thread(new Runnable() {
                     @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
-                        intent.putExtra("calendar", group);
-                        startActivity(intent);
-                        finish();
+                    public void run() {
+                        CalEvent[] evts = null;
+                        try {
+                            evts = JSONParser.getEvents(group.getId());
+                        } catch (IOException e){
+                            e.printStackTrace();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        if (evts != null){
+                            for (CalEvent evt : evts){
+                                group.addEvent(evt);
+                            }
+                        }
                     }
                 });
-                groups_container.addView(newView);
+                thread2.start();
+                try {
+                    thread2.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void loadGroups(){
+        LinearLayout groups_container = findViewById(R.id.groups_container);
+        groups_container.removeAllViews();
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        getGroupsFromServer();
+        getEventsFromServer();
+
+        if (pcal != null){
+            TreeSet<GCalendar> groups = pcal.getGroups();
+            if (groups != null){
+                //load group items ui
+                for (GCalendar group : groups){
+                    LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.groups_item, null);
+                    Button item = newView.findViewById(R.id.groups_item_item);
+                    item.setText(group.getGroupName());
+                    // set item background tint
+                    item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
+                            intent.putExtra("calendar", group);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    groups_container.addView(newView);
+                }
             }
         }
     }

@@ -5,14 +5,19 @@ import java.lang.Comparable;
 
 public class GCalendar extends Calendar implements Comparable<GCalendar> {
     private String name;
-    private long invitationCode;
-//    private TreeSet<Account> members;
+    private int invitationCode;
+    private TreeSet<Member> members;
 
     public GCalendar(String groupName){
         this.name = groupName;
         invitationCode = id;
-//        members = new TreeSet<>();
         isShareable = true;
+        members = new TreeSet<Member>();
+    }
+
+    public class JSONPostData {
+        private String name = GCalendar.this.name;
+        private boolean isShareable = GCalendar.this.isShareable;
     }
 
     public void setGroupName(String groupName){
@@ -23,17 +28,17 @@ public class GCalendar extends Calendar implements Comparable<GCalendar> {
         return name;
     }
 
-    public void setInvitationCode(long invitationCode){
+    public void setInvitationCode(int invitationCode){
         this.invitationCode = invitationCode;
     }
 
-    public long getInvitationCode(){
+    public int getInvitationCode(){
         return invitationCode;
     }
 
-//    public void addMember(Account acc){
-//        members.add(acc);
-//    }
+   public void addMember(Member member){
+       members.add(member);
+   }
 
 //    public void removeMember(Account acc){
 //        members.remove(acc);
@@ -47,14 +52,22 @@ public class GCalendar extends Calendar implements Comparable<GCalendar> {
     }
 
     public boolean equals(Object obj){
-        if (obj instanceof GCalendar){
-            return name.equals(((GCalendar) obj).getGroupName());
-        } else {
-            return false;
-        }
+//        if (obj instanceof GCalendar){
+//            return name.equals(((GCalendar) obj).getGroupName());
+//        } else {
+//            return false;
+//        }
+        return id == ((GCalendar) obj).getId();
     }
 
     public String toString(){
-        return "Group[id=" + id + ",name=" + name + ", isShareable=" + isShareable + "]";
+        String s = "Group[id=" + id + ",name=" + name + ", isShareable=" + isShareable + ", Members[";
+        if (members != null){
+            for (Member member : members){
+                s += member;
+            }
+        }
+        s += "]]";
+        return s;
     }
 }
