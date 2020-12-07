@@ -39,7 +39,7 @@
                     android:drawableStart="@drawable/custom_ic_title"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Title"
+                    android:hint="Title *"
                     android:inputType="textPersonName"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
@@ -53,7 +53,7 @@
                     android:drawableStart="@drawable/custom_ic_calendar"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Pick a date"
+                    android:hint="Date (YYYY-MM-DD) *"
                     android:inputType="date"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
@@ -67,23 +67,18 @@
                     android:drawableStart="@drawable/custom_ic_time"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Pick a time"
+                    android:hint="Time (HH:MM am/pm) *"
                     android:inputType="textPersonName|time"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
 
-                <EditText
-                    android:id="@+id/event_input_type"
+                <Spinner
+                    android:id="@+id/event_input_type_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/custom_ic_layer"
-                    android:drawablePadding="12dp"
-                    android:ems="10"
-                    android:hint="Content type"
-                    android:inputType="textPersonName"
-                    android:paddingLeft="20dp"
+                    android:background="@drawable/custom_spinner"
+                    android:paddingLeft="40dp"
                     android:paddingRight="20dp" />
 
                 <EditText
@@ -95,7 +90,7 @@
                     android:drawableStart="@drawable/custom_ic_timer"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Duration"
+                    android:hint="Duration (in hours)"
                     android:inputType="numberDecimal"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />

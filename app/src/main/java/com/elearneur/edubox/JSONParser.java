@@ -21,18 +21,20 @@ public class JSONParser {
         conn.connect();
         int responsecode = conn.getResponseCode();
         String inline = "";
-        if (responsecode != 200) throw new RuntimeException("HttpResponseCode: " + responsecode);
-        else {
+        if (responsecode == 200) {
             Scanner sc = new Scanner(url.openStream());
             while (sc.hasNext()){
                 inline += sc.nextLine();
             }
             sc.close();
+        } else {
+            System.out.println("HttpResponseCode: " + responsecode);
         }
+
         conn.disconnect();
         return inline;
     }
-    private static boolean postJSON(String json, String urlString) throws IOException {
+    private static String postJSON(String json, String urlString) throws IOException {
         String urlParameters  = json;
         byte[] postData       = urlParameters.getBytes("UTF-8");
         int    postDataLength = postData.length;
@@ -50,10 +52,43 @@ public class JSONParser {
             wr.write( postData );
         }
         int responsecode = conn.getResponseCode();
-        if (responsecode != 201) throw new RuntimeException("HttpResponseCode: " + responsecode);
+        String inline = "";
+        if (responsecode == 201) {
+            Scanner sc = new Scanner(conn.getInputStream());
+            while (sc.hasNext()){
+                inline += sc.nextLine();
+            }
+            sc.close();
+        } else {
+            System.out.println("HttpResponseCode: " + responsecode);
+        }
+
         conn.disconnect();
 
-        return responsecode==201;
+        return inline;
+    }
+    private static String putJSON(String json, String urlString) throws IOException {
+        String urlParameters  = json;
+        byte[] postData       = urlParameters.getBytes("UTF-8");
+        int    postDataLength = postData.length;
+        String request        = urlString;
+        URL    url            = new URL( request );
+        HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+        conn.setDoOutput( true );
+        conn.setInstanceFollowRedirects( false );
+        conn.setRequestMethod( "PUT" );
+        conn.setRequestProperty( "Content-Type", "application/json");
+        conn.setRequestProperty( "charset", "utf-8");
+        conn.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+        conn.setUseCaches( false );
+        try( DataOutputStream wr = new DataOutputStream( conn.getOutputStream())) {
+            wr.write( postData );
+        }
+        int responsecode = conn.getResponseCode();
+
+        conn.disconnect();
+
+        return "Response = " + responsecode;
     }
 
     public static CalEvent[] getEvents(int calendarId) throws IOException {
@@ -68,7 +103,7 @@ public class JSONParser {
         return events;
     }
 
-    public static boolean postEvent(CalEvent event) throws IOException {
+    public static String postEvent(CalEvent event) throws IOException {
         String json = gson.toJson(event.new JSONPostData());
         System.out.println("JSON = " + json);
         String urlString = "http://";
@@ -89,13 +124,17 @@ public class JSONParser {
         return cals;
     }
 
-    public static boolean postCalendar(GCalendar cal) throws IOException {
+    public static String postCalendar(GCalendar cal, Account account) throws IOException {
         String json = gson.toJson(cal.new JSONPostData());
-        // System.out.println("JSON = " + json);
+         System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
         urlString += ":8000/calendars/?format=json";
-        return postJSON(json, urlString);
+        String response = postJSON(json, urlString);
+        System.out.println("Response = " + response);
+        GCalendar gcal = gson.fromJson(response, GCalendar.class);
+        addMember(gcal, account.toMemberData());
+        return response;
     }
 
     public static Member[] getMembers(int calendarId) throws IOException {
@@ -110,14 +149,24 @@ public class JSONParser {
         return members;
     }
 
-    public static boolean addMember(GCalendar cal, Member member) throws IOException {  //post
-        Member.JSONPostData data = member.new JSONPostData();
-        data.setCalendar(cal.getInvitationCode());
-        String json = gson.toJson(data);
-        // System.out.println("JSON = " + json);
+    public static String addMember(GCalendar cal, Member member) throws IOException {  //post
+//        Member.JSONPostData data = member.new JSONPostData();
+//        data.setCalendar(cal.getId());
+//        String json = gson.toJson(data); //does not work; generates GCalendar.JSONPostData
+        String json = "{\"calendar\": " + cal.getId() + ", \"account\": " + member.getId() + "}";
+        System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
         urlString += ":8000/membership/?format=json";
         return postJSON(json, urlString);
+    }
+
+    public static String removeMember(GCalendar cal, Member member) throws IOException { //to be edited
+        String json = "{\"calendar\": " + cal.getId() + ", \"account\": " + member.getId() + "}";
+        System.out.println("JSON = " + json);
+        String urlString = "http://";
+        urlString += IP;
+        urlString += ":8000/membership/?format=json";
+        return putJSON(json, urlString);
     }
  }

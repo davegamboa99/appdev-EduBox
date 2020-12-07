@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,12 +38,16 @@ public class PersonalCalendar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_calendar);
 
+        Dates2 dates = new Dates2();
+        ImageView nextMonth = findViewById(R.id.nextMonth);
+        ImageView prevMonth = findViewById(R.id.prevMonth);
+        TextView monthYear = findViewById(R.id.month_year);
+        TextView dayWeek = findViewById(R.id.dayWeek);
+
         //daypicker
         NumberPicker dayPicker = findViewById(R.id.day_picker);
         // Set value
-        dayPicker.setMaxValue(59);
-        dayPicker.setMinValue(0);
-        dayPicker.setValue(3);
+        initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
         dayPicker.setFadingEdgeEnabled(true);
         dayPicker.setScrollerEnabled(true);
         dayPicker.setWrapSelectorWheel(true);
@@ -59,6 +65,30 @@ public class PersonalCalendar extends AppCompatActivity {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 Log.d("asda", String.format(Locale.US, "oldVal: %d, newVal: %d", oldVal, newVal));
+                dates.setCurrentDate(newVal);
+                dayWeek.setText(dates.getCurrentDayOfWeek());
+                System.out.println(dates);
+            }
+        });
+
+        monthYear.setText(dates.getCurrentMonthYear());
+        dayWeek.setText(dates.getCurrentDayOfWeek());
+        nextMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dates.moveNextMonth();
+                monthYear.setText(dates.getCurrentMonthYear());
+                dayWeek.setText(dates.getCurrentDayOfWeek());
+                initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
+            }
+        });
+        prevMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dates.movePrevMonth();
+                monthYear.setText(dates.getCurrentMonthYear());
+                dayWeek.setText(dates.getCurrentDayOfWeek());
+                initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
             }
         });
 
@@ -68,6 +98,8 @@ public class PersonalCalendar extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_calendar);
         setSupportActionBar(toolbar);
         addevent = findViewById(R.id.addevent);
+
+        initPcal();
 
         addevent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +113,6 @@ public class PersonalCalendar extends AppCompatActivity {
 
         editEvent = new Dialog(this);
 
-        initPcal();
         loadEvents();
         savePcal();
     }
@@ -104,9 +135,16 @@ public class PersonalCalendar extends AppCompatActivity {
         return true;
     }
 
+    private void initDayPicker(NumberPicker picker, int min, int max, int current){
+        picker.setMaxValue(max);
+        picker.setMinValue(min);
+        picker.setValue(current);
+    }
+
     private void initPcal(){
         try {
             pcal = PCalendar.loadCalendar(getApplicationContext());
+            System.out.println(pcal);
         } catch (IOException e) {
             pcal = new PCalendar();
             Account acc = pcal.getAccount();

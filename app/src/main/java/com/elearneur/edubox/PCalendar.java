@@ -2,6 +2,8 @@ package com.elearneur.edubox;
 
 import android.content.Context;
 
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.TreeSet;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,10 +15,12 @@ import java.util.Date;
 
 public class PCalendar extends Calendar {
     private TreeSet<GCalendar> groups;
+    private TreeSet<Integer> ids;
     private Account account;
     
     public PCalendar(){
         groups = new TreeSet<>();
+        ids = new TreeSet<>();
         account = new Account();
         isShareable = false;
     }
@@ -45,6 +49,13 @@ public class PCalendar extends Calendar {
 
     public Account getAccount(){
         return account;
+    }
+
+    public int generateId(){
+        Random rand = new Random();
+        int num = rand.nextInt();
+        if (ids.contains(num)) return generateId();
+        else return num;
     }
 
     public String toStringGroups(){

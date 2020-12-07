@@ -38,22 +38,29 @@ public class GroupCreate extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Input GroupName", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                PCalendar cal = null;
-                try {
-                    cal = PCalendar.loadCalendar(getApplicationContext());
-                } catch (IOException e) {
-                    cal = new PCalendar();
-                } catch (ClassNotFoundException e) {
-                    Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
-                }
+
                 GCalendar gcal = new GCalendar(gName);
-                cal.addGroup(gcal);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        PCalendar pcal = null;
+                        try {
+                            pcal = PCalendar.loadCalendar(getApplicationContext());
+                            JSONParser.postCalendar(gcal, pcal.getAccount());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
                 try {
-                    cal.saveCalendar(getApplicationContext());
-                } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-//                Toast.makeText(getApplicationContext(), cal.toStringGroups(), Toast.LENGTH_LONG).show();
+
                 finish();
                 startActivity(new Intent(getApplicationContext(), Groups.class));
             }

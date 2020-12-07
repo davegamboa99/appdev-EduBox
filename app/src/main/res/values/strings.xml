@@ -20,4 +20,13 @@
     <string name="eventSubTitleCalendar">Automata Theory</string>
     <string name="bullet">bullet</string>
     <string name="completed_events">Completed Events</string>
+
+    <string-array name="types">
+        <item>Content Type</item>
+        <item>None</item>
+        <item>Text/Image</item>
+        <item>Video Stream</item>
+        <item>Video Call</item>
+        <item>Doc Collab</item>
+    </string-array>
 </resources>

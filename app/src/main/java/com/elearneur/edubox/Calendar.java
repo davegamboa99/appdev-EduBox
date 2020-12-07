@@ -18,6 +18,10 @@ public class Calendar implements Serializable {
         return id;
     }
 
+    public void setId(int id){
+        this.id = id;
+    }
+
     public boolean getIsSharable(){
         return isShareable;
     }

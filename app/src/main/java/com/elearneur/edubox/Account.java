@@ -39,4 +39,8 @@ public class Account implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Member toMemberData(){
+        return new Member(id, username);
+    }
 }

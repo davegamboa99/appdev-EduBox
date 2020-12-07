@@ -10,7 +10,7 @@ public class GCalendar extends Calendar implements Comparable<GCalendar> {
 
     public GCalendar(String groupName){
         this.name = groupName;
-        invitationCode = id;
+        invitationCode = 0;
         isShareable = true;
         members = new TreeSet<Member>();
     }
@@ -33,7 +33,7 @@ public class GCalendar extends Calendar implements Comparable<GCalendar> {
     }
 
     public int getInvitationCode(){
-        return invitationCode;
+        return id;
     }
 
    public void addMember(Member member){
