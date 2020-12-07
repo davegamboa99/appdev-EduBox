@@ -21,6 +21,21 @@ public class Member implements Comparable, Serializable {
         }
     }
 
+    public class JSONGetData {
+        private int id;
+        private int calendar;
+        private int account;
+        private boolean isDeleted;
+
+        public int getId(){
+            return id;
+        }
+
+        public void setIsDeleted(boolean b){
+            isDeleted = b;
+        }
+    }
+
     public int getId(){
         return id;
     }

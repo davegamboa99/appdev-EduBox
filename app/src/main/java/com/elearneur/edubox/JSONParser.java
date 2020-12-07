@@ -118,6 +118,7 @@ public class JSONParser {
         urlString += ":8000/calendars/?user=";
         urlString += accountId;
         urlString += "&format=json";
+        System.out.println("URL = " + urlString);
         String json = getJSON(urlString);
         // System.out.println(json);
         GCalendar[] cals = gson.fromJson(json, GCalendar[].class);
@@ -162,11 +163,35 @@ public class JSONParser {
     }
 
     public static String removeMember(GCalendar cal, Member member) throws IOException { //to be edited
-        String json = "{\"calendar\": " + cal.getId() + ", \"account\": " + member.getId() + "}";
-        System.out.println("JSON = " + json);
+//        String json = "{\"calendar\": " + cal.getId() + ", \"account\": " + member.getId() + "}";
+//        System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/membership/?format=json";
-        return putJSON(json, urlString);
+        urlString += ":8000/membership/?calendar=";
+        urlString += cal.getId();
+        urlString += "&account=";
+        urlString += member.getId();
+        urlString += "&format=json";
+        String json = getJSON(urlString);
+        Member.JSONGetData[] data = gson.fromJson(json, Member.JSONGetData[].class);
+
+        String s = "";
+        if (data[0] != null){
+            urlString = "http://";
+            urlString += IP;
+            urlString += ":8000/membership/";
+            urlString += data[0].getId();
+            urlString += "/?format=json";
+            json = getJSON(urlString);
+            Member.JSONGetData datum = gson.fromJson(json, Member.JSONGetData.class);
+            if (datum != null){
+                datum.setIsDeleted(true);
+                json = gson.toJson(datum);
+                s = putJSON(json, urlString);
+            }
+        }
+
+
+        return s;
     }
  }

@@ -40,7 +40,14 @@ public class PCalendar extends Calendar {
     }
 
     public void removeGroup(GCalendar group){
-        groups.remove(group);
+        boolean c = groups.contains(group);
+        System.out.println("Contains = " + c);
+        boolean b = groups.remove(group);
+        if (b){
+            System.out.println("-------------removed------------");
+        } else {
+            System.out.println("--------------unsuccessful---------");
+        }
     }
 
     public TreeSet<GCalendar> getGroups(){

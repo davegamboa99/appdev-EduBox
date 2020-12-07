@@ -141,14 +141,32 @@ public class GroupCalendar extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Invitation code copied!" + gcal.getInvitationCode(), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.leave){
             try {
-                PCalendar pcal = null;
-                pcal = PCalendar.loadCalendar(getApplicationContext());
-                pcal.removeGroup(gcal);
-                pcal.saveCalendar(getApplicationContext());
+                PCalendar pcal = PCalendar.loadCalendar(getApplicationContext());
+                if (pcal != null){
+                    final Account acc = pcal.getAccount();
+                    if (acc != null){
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    JSONParser.removeMember(gcal, acc.toMemberData());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        thread.start();
+                        thread.join();
+                        pcal.removeGroup(gcal);
+                        pcal.saveCalendar(GroupCalendar.this);
+                    }
+                }
             } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             } catch (ClassNotFoundException e) {
-                Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             finish();
             startActivity(new Intent(getApplicationContext(), Groups.class));

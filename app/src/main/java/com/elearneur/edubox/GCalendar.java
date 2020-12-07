@@ -45,10 +45,7 @@ public class GCalendar extends Calendar implements Comparable<GCalendar> {
 //    }
 
     public int compareTo(GCalendar group){
-        int comp = name.compareTo(group.getGroupName());
-//        if (comp >= 0) return 1;
-//        else return -1;
-        return comp;
+        return id - group.getId();
     }
 
     public boolean equals(Object obj){

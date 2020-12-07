@@ -101,6 +101,7 @@ public class Groups extends AppCompatActivity {
                         if (gcals != null){
                             for (GCalendar group : gcals){
                                 pcal.addGroup(group);
+                                System.out.println(group);
                             }
                         }
                     } catch (IOException e){
