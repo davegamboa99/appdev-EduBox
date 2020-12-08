@@ -67,6 +67,7 @@ public class EventAdd extends AppCompatActivity {
         int activityType = (int) getIntent().getIntExtra("activity_type", 0);
         if (activityType==1){
             toolbar.setTitle("Edit Event");
+            add.setText("Edit");
             CalEvent evt = (CalEvent) getIntent().getSerializableExtra("event");
             if (evt != null){
                 title.setText(evt.getTitle());

@@ -195,6 +195,8 @@ public class PersonalCalendar extends AppCompatActivity {
                         event_data = rl.findViewById(R.id.event_data);
                         event_note = rl.findViewById(R.id.event_note);
                         Button edit = rl.findViewById(R.id.edit);
+                        Button back = rl.findViewById(R.id.back);
+                        ImageView delete = rl.findViewById(R.id.delete);
 
                         event_title.setText("Title: " + evt.getTitle());
                         event_date.setText("Date: " + evt.getDate());
@@ -216,6 +218,15 @@ public class PersonalCalendar extends AppCompatActivity {
                                 finish();
                             }
                         });
+
+                        back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                editEvent.cancel();
+                            }
+                        });
+
+//                        delete
 
                         editEvent.setContentView(rl);
                         editEvent.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -261,6 +272,8 @@ public class PersonalCalendar extends AppCompatActivity {
                                 event_data = rl.findViewById(R.id.event_data);
                                 event_note = rl.findViewById(R.id.event_note);
                                 Button edit = rl.findViewById(R.id.edit);
+                                Button back = rl.findViewById(R.id.back);
+                                ImageView delete = rl.findViewById(R.id.delete);
 
                                 event_title.setText("Title: " + evt.getTitle());
                                 event_date.setText("Date: " + evt.getDate());
@@ -280,6 +293,13 @@ public class PersonalCalendar extends AppCompatActivity {
                                         startActivity(intent);
                                         editEvent.dismiss();
                                         finish();
+                                    }
+                                });
+
+                                back.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        editEvent.cancel();
                                     }
                                 });
 

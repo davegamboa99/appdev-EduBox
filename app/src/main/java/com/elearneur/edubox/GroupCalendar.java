@@ -216,6 +216,8 @@ public class GroupCalendar extends AppCompatActivity {
                         event_data = rl.findViewById(R.id.event_data);
                         event_note = rl.findViewById(R.id.event_note);
                         Button edit = rl.findViewById(R.id.edit);
+                        Button back = rl.findViewById(R.id.back);
+                        ImageView delete = rl.findViewById(R.id.delete);
 
                         event_title.setText("Title: " + evt.getTitle());
                         event_date.setText("Date: " + evt.getDate());
@@ -236,6 +238,13 @@ public class GroupCalendar extends AppCompatActivity {
                                 startActivity(intent);
                                 editEvent.dismiss();
                                 finish();
+                            }
+                        });
+
+                        back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                editEvent.cancel();
                             }
                         });
 
