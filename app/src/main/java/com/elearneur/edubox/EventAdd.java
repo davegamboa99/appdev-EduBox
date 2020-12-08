@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -62,6 +63,38 @@ public class EventAdd extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types));
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type_spinner.setAdapter(typeAdapter);
+
+        int activityType = (int) getIntent().getIntExtra("activity_type", 0);
+        if (activityType==1){
+            CalEvent evt = (CalEvent) getIntent().getSerializableExtra("event");
+            if (evt != null){
+                title.setText(evt.getTitle());
+                date.setText(evt.getDate());
+                time.setText(evt.getTime());
+                duration.setText("" + evt.getDuration());
+                switch(evt.getContentType()){
+                    case "None":
+                        type_spinner.setSelection(1);
+                        break;
+                    case "Text/Image":
+                        type_spinner.setSelection(2);
+                        break;
+                    case "Video Stream":
+                        type_spinner.setSelection(3);
+                        break;
+                    case "Video Call":
+                        type_spinner.setSelection(4);
+                        break;
+                    case "Doc Collab":
+                        type_spinner.setSelection(5);
+                        break;
+                    default:
+                        type_spinner.setSelection(0);
+                        break;
+                }
+                note.setText(evt.getNote());
+            }
+        }
 
         setDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -118,9 +151,6 @@ public class EventAdd extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PCalendar pcal = null;
-                GCalendar gcal;
-
                 //instantiate an event
                 CalEvent evt;
                 String evt_title, evt_date, evt_time, evt_type, evt_note;
@@ -139,15 +169,6 @@ public class EventAdd extends AppCompatActivity {
                 } else if ("".equals(evt_time)){
                     Toast.makeText(EventAdd.this, "Time is required!", Toast.LENGTH_SHORT).show();
                     return;
-                }
-
-                //load pcal ; to be moved outside this method
-                try {
-                    pcal = PCalendar.loadCalendar(getApplicationContext());
-                } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
-                } catch (ClassNotFoundException e) {
-                    Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
                 }
 
                 switch (type){
@@ -176,10 +197,28 @@ public class EventAdd extends AppCompatActivity {
                 evt = new CalEvent(evt_title, evt_date, evt_time, evt_type, evt_duration, evt_note);
 
                 if (cal instanceof PCalendar){
-                    evt.setEventId(((PCalendar) cal).generateId());
+                    PCalendar pcal = null;
+                    //load pcal ; to be moved outside this method
+                    try {
+                        pcal = PCalendar.loadCalendar(getApplicationContext());
+                    } catch (IOException e) {
+                        Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
+                    } catch (ClassNotFoundException e) {
+                        Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (activityType == 0){ // create
+                        evt.setEventId(((PCalendar) cal).generateId());
+                    } else {
+                        CalEvent calEvent = (CalEvent) getIntent().getSerializableExtra("event");
+                        if (calEvent!=null){
+                            evt.setEventId(calEvent.getEventId());
+                        }
+                    }
                     System.out.println("-------------here-----------");
-                    pcal.addEvent(evt);
+                    pcal.addEvent(evt);  // add == update (tree set collection)
                     System.out.println(evt);
+                    System.out.println(cal);
                     try {
                         pcal.saveCalendar(getApplicationContext());
                     } catch (IOException e) {
@@ -188,29 +227,52 @@ public class EventAdd extends AppCompatActivity {
                     finish();
                     startActivity(new Intent(getApplicationContext(), PersonalCalendar.class));
                 } else {
-                    gcal = pcal.getGroup((GCalendar) cal);
-                    gcal.addEvent(evt);
-                    startActivity(new Intent(getApplicationContext(), Groups.class));
-
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                JSONParser.postEvent(evt);
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                    GCalendar gcal = (GCalendar) cal;
+                    evt.setCalendar(gcal.getId());
+                    if (activityType == 0){ //create
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    JSONParser.postEvent(evt);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
+                        });
+                        thread.start();
+                        try {
+                            thread.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    thread.start();
-                    try {
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    } else { // (1) update
+                        CalEvent calEvent = (CalEvent) getIntent().getSerializableExtra("event");
+                        if (calEvent != null){
+                            evt.setEventId(calEvent.getEventId());
+                        }
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    JSONParser.putEvent(evt);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                        thread.start();
+                        try {
+                            thread.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), Groups.class));
                 }
+
+                finish();
+                startActivity(new Intent(getApplicationContext(), Groups.class));
             }
         });
     }

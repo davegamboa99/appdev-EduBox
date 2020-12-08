@@ -37,6 +37,7 @@ public class Groups extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GroupCreate.class);
+                intent.putExtra("activity_type", 0); // 0 means create; 1 for edit
                 startActivity(intent);
                 finish();
             }

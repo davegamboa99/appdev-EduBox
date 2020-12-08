@@ -30,6 +30,12 @@ public class GroupCreate extends AppCompatActivity {
         group_create_btn = findViewById(R.id.group_create_btn);
         cancel_create = findViewById(R.id.cancel_create);
 
+        int activityType = (int) getIntent().getIntExtra("activity_type", 0);
+        if (activityType==1){ //if (1) edit
+            GCalendar gcal = (GCalendar) getIntent().getSerializableExtra("calendar");
+            group_create_input.setText(gcal.getGroupName());
+        }
+
         group_create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,30 +45,56 @@ public class GroupCreate extends AppCompatActivity {
                     return;
                 }
 
-                GCalendar gcal = new GCalendar(gName);
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        PCalendar pcal = null;
+                if (activityType == 0){ // create
+                    GCalendar gcal = new GCalendar(gName);
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PCalendar pcal = null;
+                            try {
+                                pcal = PCalendar.loadCalendar(getApplicationContext());
+                                JSONParser.postCalendar(gcal, pcal.getAccount());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    thread.start();
+                    try {
+                        thread.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), Groups.class));
+                } else { // (1) edit
+                    GCalendar gcal = (GCalendar) getIntent().getSerializableExtra("calendar");
+                    if (gcal != null){
+                        gcal.setGroupName(gName);
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    JSONParser.putCalendar(gcal);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        thread.start();
                         try {
-                            pcal = PCalendar.loadCalendar(getApplicationContext());
-                            JSONParser.postCalendar(gcal, pcal.getAccount());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
+                            thread.join();
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        Toast.makeText(GroupCreate.this, "Successfull!", Toast.LENGTH_SHORT).show();
                     }
-                });
-                thread.start();
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), Groups.class));
                 }
-
-                finish();
-                startActivity(new Intent(getApplicationContext(), Groups.class));
             }
         });
 

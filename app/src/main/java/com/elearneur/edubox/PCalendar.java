@@ -26,7 +26,15 @@ public class PCalendar extends Calendar {
     }
 
     public void addGroup(GCalendar group){
-        groups.add(group);
+        boolean flag = true;
+        for (GCalendar gcal : groups){
+            if (gcal.equals(group)){
+                gcal.setGroupName(group.getGroupName());
+                flag = false;
+                break;
+            }
+        }
+        if (flag) groups.add(group);
     }
 
     public GCalendar getGroup(GCalendar gcal){

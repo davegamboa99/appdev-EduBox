@@ -106,6 +106,7 @@ public class PersonalCalendar extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EventAdd.class);
                 intent.putExtra("calendar", pcal);
+                intent.putExtra("activity_type", 0);
                 startActivity(intent);
                 finish();
             }
@@ -144,7 +145,7 @@ public class PersonalCalendar extends AppCompatActivity {
     private void initPcal(){
         try {
             pcal = PCalendar.loadCalendar(getApplicationContext());
-            System.out.println(pcal);
+//            System.out.println(pcal);
         } catch (IOException e) {
             pcal = new PCalendar();
             Account acc = pcal.getAccount();
@@ -193,6 +194,7 @@ public class PersonalCalendar extends AppCompatActivity {
                         event_speed = rl.findViewById(R.id.event_speed);
                         event_data = rl.findViewById(R.id.event_data);
                         event_note = rl.findViewById(R.id.event_note);
+                        Button edit = rl.findViewById(R.id.edit);
 
                         event_title.setText("Title: " + evt.getTitle());
                         event_date.setText("Date: " + evt.getDate());
@@ -201,6 +203,19 @@ public class PersonalCalendar extends AppCompatActivity {
                         event_speed.setText("Min. Speed Requirement: TBC"); //to be calculated
                         event_data.setText("Min. Data Consumption: TBC");
                         event_note.setText("Note: " + evt.getNote());
+
+                        edit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(PersonalCalendar.this, EventAdd.class);
+                                intent.putExtra("calendar", pcal);
+                                intent.putExtra("event", evt);
+                                intent.putExtra("activity_type", 1); // 0 for add, 1 for edit
+                                startActivity(intent);
+                                editEvent.dismiss();
+                                finish();
+                            }
+                        });
 
                         editEvent.setContentView(rl);
                         editEvent.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -245,6 +260,7 @@ public class PersonalCalendar extends AppCompatActivity {
                                 event_speed = rl.findViewById(R.id.event_speed);
                                 event_data = rl.findViewById(R.id.event_data);
                                 event_note = rl.findViewById(R.id.event_note);
+                                Button edit = rl.findViewById(R.id.edit);
 
                                 event_title.setText("Title: " + evt.getTitle());
                                 event_date.setText("Date: " + evt.getDate());
@@ -253,6 +269,19 @@ public class PersonalCalendar extends AppCompatActivity {
                                 event_speed.setText("Min. Speed Requirement: TBC"); //to be calculated
                                 event_data.setText("Min. Data Consumption: TBC");
                                 event_note.setText("Note: " + evt.getNote());
+
+                                edit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(PersonalCalendar.this, EventAdd.class);
+                                        intent.putExtra("calendar", gcal);
+                                        intent.putExtra("event", evt);
+                                        intent.putExtra("activity_type", 1); // 0 for add, 1 for edit
+                                        startActivity(intent);
+                                        editEvent.dismiss();
+                                        finish();
+                                    }
+                                });
 
                                 editEvent.setContentView(rl);
                                 editEvent.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

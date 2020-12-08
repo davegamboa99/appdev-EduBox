@@ -15,7 +15,7 @@ public class GCalendar extends Calendar implements Comparable<GCalendar> {
         members = new TreeSet<Member>();
     }
 
-    public class JSONPostData {
+    public class JSONPostPutData {
         private String name = GCalendar.this.name;
         private boolean isShareable = GCalendar.this.isShareable;
     }

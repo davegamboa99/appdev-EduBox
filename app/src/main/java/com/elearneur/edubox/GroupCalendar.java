@@ -171,6 +171,11 @@ public class GroupCalendar extends AppCompatActivity {
             finish();
             startActivity(new Intent(getApplicationContext(), Groups.class));
             Toast.makeText(getApplicationContext(), "You leave the group!", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.edit_name){
+            Intent intent = new Intent(GroupCalendar.this, GroupCreate.class);
+            intent.putExtra("calendar", gcal);
+            intent.putExtra("activity_type", 1); // 0 means create; 1 for edit
+            startActivity(intent);
         }
         return true;
     }

@@ -8,6 +8,9 @@
         android:title="Share"
         app:showAsAction="always" />
     <item
+        android:id="@+id/edit_name"
+        android:title="Edit Group Name" />
+    <item
         android:id="@+id/leave"
         android:icon="@null"
         android:title="Leave Group"

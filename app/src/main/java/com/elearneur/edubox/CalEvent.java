@@ -25,7 +25,7 @@ public class CalEvent implements Comparable<CalEvent>, Serializable {
         else this.note = note;
     }
 
-    public class JSONPostData {
+    public class JSONPostPutData {
         private int calendar = CalEvent.this.calendar;
         private String title = CalEvent.this.title;
         private String date = CalEvent.this.date;
@@ -33,10 +33,6 @@ public class CalEvent implements Comparable<CalEvent>, Serializable {
         private String content_type = CalEvent.this.content_type;
         private float duration = CalEvent.this.duration;
         private String note = CalEvent.this.note;
-
-        public void setCalendar(int calendarId){
-            this.calendar = calendarId;
-        }
     }
 
     public void setEventId(int eventId){
@@ -51,7 +47,7 @@ public class CalEvent implements Comparable<CalEvent>, Serializable {
         this.calendar = calendarId;
     }
 
-    public long getCalendar(){
+    public int getCalendar(){
         return calendar;
     }
 
@@ -79,8 +75,24 @@ public class CalEvent implements Comparable<CalEvent>, Serializable {
         return note;
     }
 
+    public void copy(CalEvent evt){
+        eventId = evt.getEventId();
+        calendar = evt.getCalendar();
+        title = evt.getTitle();
+        date = evt.getDate();
+        time = evt.getTime();
+        content_type = evt.getContentType();
+        duration = evt.getDuration();
+        note = evt.getNote();
+        isRead = evt.getIsRead();
+    }
+
     public int compareTo(CalEvent evt){
         return eventId - evt.getEventId();
+    }
+
+    public boolean equals(Object obj){
+        return eventId == ((CalEvent) obj).getEventId();
     }
 
     public void setIsRead(boolean isRead){
@@ -93,6 +105,7 @@ public class CalEvent implements Comparable<CalEvent>, Serializable {
 
     public String toString(){
         String s = "Event[id = " + eventId;
+        s += ", calendar = " + calendar;
         s += ", title = " + title;
         s += ", date = " + date;
         s += ", type = " + content_type;

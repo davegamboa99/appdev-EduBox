@@ -30,12 +30,22 @@ public class Calendar implements Serializable {
         if (events == null){
             events = new TreeSet<>();
         }
-        evt.setCalendar(id);
-        boolean b = events.add(evt);
-        if (b)
-            System.out.println(evt.getTitle() + " successfully added");
-        else
-            System.out.println(evt.getTitle() + " added failed");
+        boolean flag = true;
+        for (CalEvent event: events){
+            if (event.equals(evt)){
+                event.copy(evt); //update
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            evt.setCalendar(id);
+            boolean b = events.add(evt);
+            if (b)
+                System.out.println(evt.getTitle() + " successfully added");
+            else
+                System.out.println(evt.getTitle() + " added failed");
+        }
     }
 
     public TreeSet<CalEvent> getEvents(){
