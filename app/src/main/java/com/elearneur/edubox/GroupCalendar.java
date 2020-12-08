@@ -195,12 +195,13 @@ public class GroupCalendar extends AppCompatActivity {
         TreeSet<CalEvent> evts = gcal.getEvents();
         if (evts != null){
             for (CalEvent evt : evts){
-                LinearLayout ll_time = (LinearLayout) this.getLayoutInflater().inflate(R.layout.events_item_time, null);
+                LinearLayout ll_time = (LinearLayout) inflater.inflate(R.layout.events_item_time, null);
                 TextView evt_time = ll_time.findViewById(R.id.label_time);
                 evt_time.setText(evt.getTime());
                 if ("".equals(evt_time.getText())) evt_time.setText("All Day");
 
-                LinearLayout ll_event = (LinearLayout) this.getLayoutInflater().inflate(R.layout.events_item_event, null);
+                LinearLayout ll_event = (LinearLayout) inflater.inflate(R.layout.events_item_event, null);
+
                 ll_event.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -238,11 +239,12 @@ public class GroupCalendar extends AppCompatActivity {
                             }
                         });
 
-                        editEvent.setContentView(R.layout.event_edit);
+                        editEvent.setContentView(rl);
                         editEvent.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         editEvent.show();
                     }
                 });
+
                 TextView evt_title = ll_event.findViewById(R.id.label_title);
                 TextView evt_calName = ll_event.findViewById(R.id.label_calName);
                 evt_title.setText(evt.getTitle());
