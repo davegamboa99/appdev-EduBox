@@ -1,23 +1,16 @@
 package com.elearneur.edubox.ui.bottom_nav;
 
 import android.os.Bundle;
-import android.text.NoCopySpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.elearneur.edubox.R;
-import com.elearneur.edubox.ui.home.HomeViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNavFragment extends Fragment {
@@ -38,13 +31,8 @@ public class BottomNavFragment extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tabs_fragment_container,
                 new TabCalendarFragment()).commit();    //set calendar as default page
 
-//        final TextView textView = root.findViewById(R.id.text_bottom_nav);
-//        bottomNavViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+        //ViewPager viewPager = (NonSwipeableViewPager)root.findViewById(R.id.)
+
         return root;
     }
 
@@ -64,7 +52,6 @@ public class BottomNavFragment extends Fragment {
                             fragment = new TabNotificationsFragment();
                             break;
                     }
-
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tabs_fragment_container,
                             fragment).commit();
                     return true;

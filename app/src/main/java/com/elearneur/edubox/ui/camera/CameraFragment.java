@@ -1,4 +1,4 @@
-package com.elearneur.edubox.ui.home;
+package com.elearneur.edubox.ui.camera;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,16 +14,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.elearneur.edubox.R;
 
-public class HomeFragment extends Fragment {
+public class CameraFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private CameraViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
+                new ViewModelProvider(this).get(CameraViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_camera, container, false);
+        final TextView textView = root.findViewById(R.id.text_camera);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

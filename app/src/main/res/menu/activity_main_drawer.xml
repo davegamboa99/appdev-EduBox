@@ -3,16 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/group1">
         <item
             android:id="@+id/nav_bottom_nav"
-            android:icon="@drawable/edubox_icon"
-            android:title="@string/app_name"
-            android:visible="false"/>
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_home"
+            android:visible="true"/>
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/group2">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:title="@string/menu_camera" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
