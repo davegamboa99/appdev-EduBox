@@ -135,12 +135,6 @@ public class PersonalCalendar extends AppCompatActivity {
         loadEvents();
     }
 
-    @Override
-    public void onDestroy() {
-        savePcal();
-        super.onDestroy();
-    }
-
     private void initDayPicker(NumberPicker picker, int min, int max, int current){
         picker.setMaxValue(max);
         picker.setMinValue(min);
@@ -233,12 +227,7 @@ public class PersonalCalendar extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 pcal.getEvents().remove(evt);
-                                editEvent.cancel();
-                                try {
-                                    pcal.saveCalendar(PersonalCalendar.this);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                savePcal();
                                 editEvent.dismiss();
                                 onResume();
                             }
@@ -339,12 +328,7 @@ public class PersonalCalendar extends AppCompatActivity {
                                         }
                                         GCalendar gCalendar = pcal.getGroup(gcal);
                                         gCalendar.getEvents().remove(evt);
-                                        editEvent.cancel();
-                                        try {
-                                            pcal.saveCalendar(PersonalCalendar.this);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                        savePcal();
                                         editEvent.dismiss();
                                         onResume();
                                     }

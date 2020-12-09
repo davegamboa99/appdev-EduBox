@@ -49,7 +49,7 @@ public class EventAdd extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar_addevent);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         title = findViewById(R.id.event_input_title);
         date = findViewById(R.id.event_input_date);
@@ -202,9 +202,8 @@ public class EventAdd extends AppCompatActivity {
                 evt_note = note.getText().toString();
                 evt = new CalEvent(evt_title, evt_date, evt_time, evt_type, evt_duration, evt_note);
 
+                PCalendar pcal = deserializePCal();
                 if (cal instanceof PCalendar){
-                    PCalendar pcal = deserializePCal();
-
                     if (activityType == 0){ // create
                         evt.setEventId(((PCalendar) cal).generateId());
                     } else { // (1) update
@@ -212,27 +211,28 @@ public class EventAdd extends AppCompatActivity {
                         evt.setEventId(calEvent.getEventId());
                     }
                     pcal.addEvent(evt);  // add == update (tree set collection)
-
-                    reserializePCal(pcal);
                 } else {
                     GCalendar gcal = (GCalendar) cal;
                     evt.setCalendar(gcal.getId());
 
                     if (activityType == 0){ //create
                         postEvent(evt); //uses HttpUrlConnection; creates event online
-                        // does not need to serialize the event. Groups.class will load it
                     } else { // (1) update
-                        PCalendar pcal = deserializePCal();
                         CalEvent calEvent = (CalEvent) getIntent().getSerializableExtra("event");
-
                         evt.setEventId(calEvent.getEventId()); // updates the event's id of the created event evt
                         putEvent(evt); //uses HttpUrlConnection; updates the event found online
-                        pcal.getGroup(gcal).addEvent(evt); // updates the event found offline
-
-                        reserializePCal(pcal);
+                    }
+                    System.out.println("GCAL:");
+                    for (CalEvent calEvent: pcal.getGroup(gcal).getEvents()){
+                        System.out.println(calEvent);
+                    }
+                    pcal.getGroup(gcal).addEvent(evt); // updates the event found offline
+                    System.out.println("GCAL:");
+                    for (CalEvent calEvent: pcal.getGroup(gcal).getEvents()){
+                        System.out.println(calEvent);
                     }
                 }
-
+                reserializePCal(pcal);
                 finish();
             }
         });

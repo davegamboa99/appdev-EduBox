@@ -2,6 +2,7 @@ package com.elearneur.edubox;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -37,21 +38,24 @@ public class GroupJoin extends AppCompatActivity {
                 }
 
                 int code_int = Integer.parseInt(code);
+                Context here = getApplicationContext();
+                Toast toast = Toast.makeText(here ,"Code does not exist!", Toast.LENGTH_SHORT);
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        PCalendar pcal = null;
+                        PCalendar pcal = deserializePCal();
                         GCalendar gcal = new GCalendar("");
                         gcal.setId(code_int);
                         try {
-                            pcal = PCalendar.loadCalendar(getApplicationContext());
                             String response = JSONParser.addMember(gcal, pcal.getAccount().toMemberData());
-                            if (response.length() == 0) Toast.makeText(getApplicationContext(),"Code does not exist!", Toast.LENGTH_SHORT);
+                            if (response.length() == 0) {
+                                toast.show();
+                                return;
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
                         }
+                        finish();
                     }
                 });
                 thread.start();
@@ -60,9 +64,6 @@ public class GroupJoin extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                finish();
-                startActivity(new Intent(getApplicationContext(), Groups.class));
             }
         });
 
@@ -72,5 +73,17 @@ public class GroupJoin extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private PCalendar deserializePCal(){
+        PCalendar pcal = null;
+        try {
+            pcal = PCalendar.loadCalendar(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return pcal;
     }
 }

@@ -39,7 +39,9 @@ public class Groups extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), GroupCreate.class);
                 intent.putExtra("activity_type", 0); // 0 means create; 1 for edit
                 startActivity(intent);
-                finish();
+                creategroup.setVisibility(View.INVISIBLE);
+                joingroup.setVisibility(View.INVISIBLE);
+                optionsAreVisible = false;
             }
         });
 
@@ -48,6 +50,9 @@ public class Groups extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GroupJoin.class);
                 startActivity(intent);
+                creategroup.setVisibility(View.INVISIBLE);
+                joingroup.setVisibility(View.INVISIBLE);
+                optionsAreVisible = false;
             }
         });
 
@@ -65,10 +70,13 @@ public class Groups extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
         initPcal();
         loadGroups();
-        savePcal();
     }
 
     private void initPcal(){
@@ -104,6 +112,7 @@ public class Groups extends AppCompatActivity {
                                 pcal.addGroup(group);
                                 System.out.println(group);
                             }
+                            savePcal();
                         }
                     } catch (IOException e){
                         e.printStackTrace();
@@ -140,6 +149,7 @@ public class Groups extends AppCompatActivity {
                             for (CalEvent evt : evts){
                                 group.addEvent(evt);
                             }
+                            savePcal();
                         }
                     }
                 });
@@ -176,7 +186,6 @@ public class Groups extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
                             intent.putExtra("calendar", group);
                             startActivity(intent);
-                            finish();
                         }
                     });
                     groups_container.addView(newView);

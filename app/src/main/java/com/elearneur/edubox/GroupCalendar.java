@@ -96,14 +96,11 @@ public class GroupCalendar extends AppCompatActivity {
         });
 
         gcal = (GCalendar) getIntent().getSerializableExtra("calendar");
-        if (gcal == null) {
-            finish();
-        }
 
         Toolbar toolbar;
         toolbar = findViewById(R.id.toolbar_group_calendar);
+        toolbar.setTitle(gcal.getGroupName().toUpperCase());
         setSupportActionBar(toolbar);
-        if (gcal!=null) toolbar.setTitle(gcal.getGroupName().toUpperCase());
 
         editEvent = new Dialog(this);
 
@@ -121,8 +118,6 @@ public class GroupCalendar extends AppCompatActivity {
                 finish();
             }
         });
-
-        loadEvents();
     }
 
     @Override
@@ -139,46 +134,49 @@ public class GroupCalendar extends AppCompatActivity {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("invitation_code", "" + gcal.getInvitationCode());
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(getApplicationContext(), "Invitation code copied!" + gcal.getInvitationCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Invitation code copied!", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.leave){
-            try {
-                PCalendar pcal = PCalendar.loadCalendar(getApplicationContext());
-                if (pcal != null){
-                    final Account acc = pcal.getAccount();
-                    if (acc != null){
-                        Thread thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    JSONParser.removeMember(gcal, acc.toMemberData());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                        thread.start();
-                        thread.join();
-                        pcal.removeGroup(gcal);
-                        pcal.saveCalendar(GroupCalendar.this);
+            PCalendar pcal = deserializePCal();
+            final Account acc = pcal.getAccount();
+            if (acc != null){
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONParser.removeMember(gcal, acc.toMemberData());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+                });
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                pcal.removeGroup(gcal);
+                reserializePCal(pcal);
             }
+
             finish();
-            startActivity(new Intent(getApplicationContext(), Groups.class));
-            Toast.makeText(getApplicationContext(), "You leave the group!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "You left the group!", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.edit_name){
             Intent intent = new Intent(GroupCalendar.this, GroupCreate.class);
             intent.putExtra("calendar", gcal);
             intent.putExtra("activity_type", 1); // 0 means create; 1 for edit
             startActivity(intent);
+            finish();
         }
         return true;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        PCalendar pcal = deserializePCal();
+        gcal = pcal.getGroup(gcal); //update
+        loadEvents();
     }
 
     private void initDayPicker(NumberPicker picker, int min, int max, int current){
@@ -237,7 +235,6 @@ public class GroupCalendar extends AppCompatActivity {
                                 intent.putExtra("activity_type", 1); // 0 for add, 1 for edit
                                 startActivity(intent);
                                 editEvent.dismiss();
-                                finish();
                             }
                         });
 
@@ -245,6 +242,34 @@ public class GroupCalendar extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 editEvent.cancel();
+                            }
+                        });
+
+                        delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Thread thread = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            JSONParser.putDeleteEvent(evt);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                                thread.start();
+                                try {
+                                    thread.join();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                PCalendar pcal = deserializePCal();
+                                GCalendar gCalendar = pcal.getGroup(gcal);
+                                gCalendar.getEvents().remove(evt);
+                                reserializePCal(pcal);
+                                editEvent.dismiss();
+                                onResume();
                             }
                         });
 
@@ -263,6 +288,25 @@ public class GroupCalendar extends AppCompatActivity {
                 events_container.addView(ll_event);
             }
         }
+    }
 
+    private PCalendar deserializePCal(){
+        PCalendar pcal = null;
+        try {
+            pcal = PCalendar.loadCalendar(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return pcal;
+    }
+
+    private void reserializePCal(PCalendar pcal){
+        try {
+            pcal.saveCalendar(GroupCalendar.this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

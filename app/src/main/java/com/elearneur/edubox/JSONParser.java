@@ -59,8 +59,6 @@ public class JSONParser {
                 inline += sc.nextLine();
             }
             sc.close();
-        } else {
-            System.out.println("HttpResponseCode: " + responsecode);
         }
 
         conn.disconnect();
