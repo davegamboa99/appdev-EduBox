@@ -1,15 +1,22 @@
 package com.elearneur.edubox.ui.bottom_nav;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.elearneur.edubox.R;
+import com.elearneur.edubox.detailedanalysis.DetailedAnalysisActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +63,7 @@ public class TabDashboardFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);    //enable appbar menus
     }
 
     @Override
@@ -65,5 +73,25 @@ public class TabDashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_dashboard_fragment, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dashboard");
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_analysis, menu);
+        //super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override   //transition behave swipe right on back key
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.action_analysis:
+                intent = new Intent(getActivity(), DetailedAnalysisActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 }

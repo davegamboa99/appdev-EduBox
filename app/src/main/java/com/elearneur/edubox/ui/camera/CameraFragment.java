@@ -2,6 +2,9 @@ package com.elearneur.edubox.ui.camera;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,6 +33,12 @@ public class CameraFragment extends Fragment {
                 textView.setText(s);
             }
         });
+//        setHasOptionsMenu(true);
         return root;
     }
+
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_blank, menu);
+//    }
 }

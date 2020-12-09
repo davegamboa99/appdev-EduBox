@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  Franz colors  -->
     <color name="primary_color">#0D47A1</color>
+    <color name="main_color">#0D47A1</color>
     <color name="primary_dark">#002171</color>
     <color name="primary_light">#5471D2</color>
     <color name="secondary_color">#2962FF</color>
@@ -10,4 +12,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_dark">#CCCCCC</color>
     <color name="primary_off_white">#F6F9FB</color>
+    <!--  Detailed Analysis  -->
+    <color name="blue_500">#2196F3</color>
+    <color name="grey_650">#707070</color>
+    <!--  Franz colors  -->
 </resources>

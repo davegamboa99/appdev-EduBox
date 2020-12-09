@@ -2,10 +2,13 @@ package com.elearneur.edubox.ui.bottom_nav;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -56,6 +59,7 @@ public class TabNotificationsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);    //enable appbar menus
     }
 
     @Override
@@ -65,5 +69,11 @@ public class TabNotificationsFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_notifications_fragment, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Notifications");
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_notifications, menu);
+        //super.onCreateOptionsMenu(menu, inflater);
     }
 }

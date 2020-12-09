@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_check"
+        android:icon="@drawable/ic_check_circle"
+        android:title="@string/action_check"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_sound"
+        android:icon="@drawable/ic_volume_up"
+        android:title="@string/action_sound"
+        app:showAsAction="ifRoom" />
+</menu>

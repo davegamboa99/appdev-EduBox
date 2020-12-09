@@ -2,11 +2,14 @@ package com.elearneur.edubox.ui.bottom_nav;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -31,10 +34,10 @@ public class BottomNavFragment extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tabs_fragment_container,
                 new TabCalendarFragment()).commit();    //set calendar as default page
 
-        //ViewPager viewPager = (NonSwipeableViewPager)root.findViewById(R.id.)
-
         return root;
     }
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

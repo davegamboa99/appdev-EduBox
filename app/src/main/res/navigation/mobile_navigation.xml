@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_camera" />
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_camera"
         android:name="com.elearneur.edubox.ui.camera.CameraFragment"
         android:label="@string/menu_camera"
         tools:layout="@layout/fragment_camera" />
