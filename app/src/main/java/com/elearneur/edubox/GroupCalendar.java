@@ -35,6 +35,7 @@ import java.util.TreeSet;
 public class GroupCalendar extends AppCompatActivity {
     private GCalendar gcal;
     private Dialog editEvent;
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class GroupCalendar extends AppCompatActivity {
         //daypicker
         NumberPicker dayPicker = findViewById(R.id.day_picker);
         // Set value
+        date = dates.getDateString();
         initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
         dayPicker.setFadingEdgeEnabled(true);
         dayPicker.setScrollerEnabled(true);
@@ -69,8 +71,9 @@ public class GroupCalendar extends AppCompatActivity {
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 Log.d("asda", String.format(Locale.US, "oldVal: %d, newVal: %d", oldVal, newVal));
                 dates.setCurrentDate(newVal);
+                date = dates.getDateString();
                 dayWeek.setText(dates.getCurrentDayOfWeek());
-                System.out.println(dates);
+                loadEvents(); // reload events
             }
         });
 
@@ -115,7 +118,6 @@ public class GroupCalendar extends AppCompatActivity {
                 intent.putExtra("calendar", gcal);
                 intent.putExtra("activity_type", 0);
                 startActivity(intent);
-                finish();
             }
         });
     }
@@ -193,6 +195,8 @@ public class GroupCalendar extends AppCompatActivity {
         TreeSet<CalEvent> evts = gcal.getEvents();
         if (evts != null){
             for (CalEvent evt : evts){
+                if (!date.equals(evt.getDate())) continue;
+
                 LinearLayout ll_time = (LinearLayout) inflater.inflate(R.layout.events_item_time, null);
                 TextView evt_time = ll_time.findViewById(R.id.label_time);
                 evt_time.setText(evt.getTime());

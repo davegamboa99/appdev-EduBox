@@ -105,6 +105,13 @@ public class Dates2 {
         return current.get(Calendar.DAY_OF_MONTH);
     }
 
+    public String getDateString(){
+        int year = current.get(Calendar.YEAR);
+        int month = current.get(Calendar.MONTH) + 1;
+        int dayOfMonth = current.get(Calendar.DAY_OF_MONTH);
+        return year + "-" + month + "-" + dayOfMonth;
+    }
+
     public String toString(){
         return "Dates[date=" + current.getTime() + "]";
     }
