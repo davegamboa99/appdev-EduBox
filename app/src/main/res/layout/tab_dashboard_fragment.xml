@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.bottom_nav.TabDashboardFragment">
+    tools:context=".ui.bottom_nav.TabDashboardFragment"
+    android:background="@color/primary_off_white">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"

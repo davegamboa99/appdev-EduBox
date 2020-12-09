@@ -17,7 +17,7 @@
             android:parentActivityName=".MainActivityMenu" />
         <!-- Login Activity -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/Theme.EduBox.Fullscreen" /> <!-- Main Menu Activity -->
         <activity
             android:name=".MainActivityMenu"

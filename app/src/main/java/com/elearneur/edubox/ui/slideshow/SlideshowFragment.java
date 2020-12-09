@@ -32,13 +32,15 @@ public class SlideshowFragment extends Fragment {
                 textView.setText(s);
             }
         });
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         return root;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//        menu.clear();
-//        inflater.inflate(R.menu.menu_blank, menu);
-//    }
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        menu.removeItem(R.id.action_analysis);
+        menu.removeItem(R.id.action_calendar);
+        menu.removeItem(R.id.action_sound);
+        menu.removeItem(R.id.action_check);
+    }
 }

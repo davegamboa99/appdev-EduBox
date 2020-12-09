@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.elearneur.edubox.login.LoginActivity;
+
 public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,6 @@ public class SplashScreen extends AppCompatActivity {
                 SplashScreen.this.startActivity(i);
                 SplashScreen.this.finish();
             }
-        }, 3000);  //set to 3000
+        }, 2000);
     }
 }
