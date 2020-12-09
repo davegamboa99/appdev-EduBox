@@ -35,6 +35,21 @@ public class CalEvent implements Comparable<CalEvent>, Serializable {
         private String note = CalEvent.this.note;
     }
 
+    public class JSONPutDeleteData {
+        private int calendar = CalEvent.this.calendar;
+        private String title = CalEvent.this.title;
+        private String date = CalEvent.this.date;
+        private String time = CalEvent.this.time;
+        private String content_type = CalEvent.this.content_type;
+        private float duration = CalEvent.this.duration;
+        private String note = CalEvent.this.note;
+        private boolean isDeleted;
+
+        public void setIsDeleted(boolean b){
+            isDeleted = b;
+        }
+    }
+
     public void setEventId(int eventId){
         this.eventId = eventId;
     }

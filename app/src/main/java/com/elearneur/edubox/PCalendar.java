@@ -48,14 +48,7 @@ public class PCalendar extends Calendar {
     }
 
     public void removeGroup(GCalendar group){
-        boolean c = groups.contains(group);
-        System.out.println("Contains = " + c);
-        boolean b = groups.remove(group);
-        if (b){
-            System.out.println("-------------removed------------");
-        } else {
-            System.out.println("--------------unsuccessful---------");
-        }
+        groups.remove(group);
     }
 
     public TreeSet<GCalendar> getGroups(){
@@ -112,7 +105,6 @@ public class PCalendar extends Calendar {
         out.writeObject(this);
         out.close();
         file.close();
-        System.out.println("Calendar has been serialize.");
     }
 
     public static PCalendar loadCalendar(Context context) throws IOException, ClassNotFoundException {
@@ -122,7 +114,6 @@ public class PCalendar extends Calendar {
         PCalendar cal = (PCalendar) in.readObject();
         in.close();
         file.close();
-        System.out.println("Calendar has been deserialize.");
         return cal;
     }
 }

@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shawnlin.numberpicker.NumberPicker;
@@ -67,7 +66,6 @@ public class PersonalCalendar extends AppCompatActivity {
                 Log.d("asda", String.format(Locale.US, "oldVal: %d, newVal: %d", oldVal, newVal));
                 dates.setCurrentDate(newVal);
                 dayWeek.setText(dates.getCurrentDayOfWeek());
-                System.out.println(dates);
             }
         });
 
@@ -99,8 +97,6 @@ public class PersonalCalendar extends AppCompatActivity {
         setSupportActionBar(toolbar);
         addevent = findViewById(R.id.addevent);
 
-        initPcal();
-
         addevent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,14 +104,10 @@ public class PersonalCalendar extends AppCompatActivity {
                 intent.putExtra("calendar", pcal);
                 intent.putExtra("activity_type", 0);
                 startActivity(intent);
-                finish();
             }
         });
 
         editEvent = new Dialog(this);
-
-        loadEvents();
-        savePcal();
     }
 
     @Override
@@ -136,6 +128,19 @@ public class PersonalCalendar extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        initPcal();
+        loadEvents();
+    }
+
+    @Override
+    public void onDestroy() {
+        savePcal();
+        super.onDestroy();
+    }
+
     private void initDayPicker(NumberPicker picker, int min, int max, int current){
         picker.setMaxValue(max);
         picker.setMinValue(min);
@@ -145,7 +150,6 @@ public class PersonalCalendar extends AppCompatActivity {
     private void initPcal(){
         try {
             pcal = PCalendar.loadCalendar(getApplicationContext());
-//            System.out.println(pcal);
         } catch (IOException e) {
             pcal = new PCalendar();
             Account acc = pcal.getAccount();
@@ -215,7 +219,6 @@ public class PersonalCalendar extends AppCompatActivity {
                                 intent.putExtra("activity_type", 1); // 0 for add, 1 for edit
                                 startActivity(intent);
                                 editEvent.dismiss();
-                                finish();
                             }
                         });
 
@@ -226,7 +229,20 @@ public class PersonalCalendar extends AppCompatActivity {
                             }
                         });
 
-//                        delete
+                        delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pcal.getEvents().remove(evt);
+                                editEvent.cancel();
+                                try {
+                                    pcal.saveCalendar(PersonalCalendar.this);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                editEvent.dismiss();
+                                onResume();
+                            }
+                        });
 
                         editEvent.setContentView(rl);
                         editEvent.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -292,7 +308,6 @@ public class PersonalCalendar extends AppCompatActivity {
                                         intent.putExtra("activity_type", 1); // 0 for add, 1 for edit
                                         startActivity(intent);
                                         editEvent.dismiss();
-                                        finish();
                                     }
                                 });
 
@@ -300,6 +315,38 @@ public class PersonalCalendar extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         editEvent.cancel();
+                                    }
+                                });
+
+                                delete.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Thread thread = new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    JSONParser.putDeleteEvent(evt);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                        thread.start();
+                                        try {
+                                            thread.join();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        GCalendar gCalendar = pcal.getGroup(gcal);
+                                        gCalendar.getEvents().remove(evt);
+                                        editEvent.cancel();
+                                        try {
+                                            pcal.saveCalendar(PersonalCalendar.this);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        editEvent.dismiss();
+                                        onResume();
                                     }
                                 });
 

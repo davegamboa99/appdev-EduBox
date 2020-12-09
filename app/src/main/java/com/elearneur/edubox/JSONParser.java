@@ -124,6 +124,20 @@ public class JSONParser {
         return putJSON(json, urlString);
     }
 
+    public static String putDeleteEvent(CalEvent event) throws IOException {
+        CalEvent.JSONPutDeleteData data = event.new JSONPutDeleteData();
+        data.setIsDeleted(true);
+        String json = gson.toJson(data);
+        System.out.println("JSON = " + json);
+        String urlString = "http://";
+        urlString += IP;
+        urlString += ":8000/events/";
+        urlString += event.getEventId();
+        urlString += "/?format=json";
+        System.out.println("URL = " + urlString);
+        return putJSON(json, urlString);
+    }
+
     public static GCalendar[] getGCalendars(int accountId) throws IOException {
         String urlString = "http://";
         urlString += IP;

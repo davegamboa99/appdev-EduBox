@@ -144,6 +144,7 @@ public class EventAdd extends AppCompatActivity {
 
         cal = (com.elearneur.edubox.Calendar) getIntent().getSerializableExtra("calendar");
 
+        // set the message below the add/edit button
         String calName;
         if (cal instanceof PCalendar) calName = "Personal Calendar";
         else calName = ((GCalendar) cal).getGroupName();
@@ -162,6 +163,7 @@ public class EventAdd extends AppCompatActivity {
                 evt_time = time.getText().toString();
                 int type = type_spinner.getSelectedItemPosition();
 
+                // check the required fields
                 if ("".equals(evt_title)) {
                     Toast.makeText(EventAdd.this, "Title is required!", Toast.LENGTH_SHORT).show();
                     return;
@@ -173,6 +175,7 @@ public class EventAdd extends AppCompatActivity {
                     return;
                 }
 
+                // gets the spinner string value
                 switch (type){
                     case 2:
                         evt_type = "Text/Image";
@@ -191,6 +194,7 @@ public class EventAdd extends AppCompatActivity {
                         break;
                 }
 
+                //check if duration is empty
                 String evt_duration_string = duration.getText().toString();
                 if ("".equals(evt_duration_string)) evt_duration_string = "0";
 
@@ -199,83 +203,96 @@ public class EventAdd extends AppCompatActivity {
                 evt = new CalEvent(evt_title, evt_date, evt_time, evt_type, evt_duration, evt_note);
 
                 if (cal instanceof PCalendar){
-                    PCalendar pcal = null;
-                    //load pcal ; to be moved outside this method
-                    try {
-                        pcal = PCalendar.loadCalendar(getApplicationContext());
-                    } catch (IOException e) {
-                        Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
-                    } catch (ClassNotFoundException e) {
-                        Toast.makeText(getApplicationContext(), "ClassNotFoundException", Toast.LENGTH_SHORT).show();
-                    }
+                    PCalendar pcal = deserializePCal();
 
                     if (activityType == 0){ // create
                         evt.setEventId(((PCalendar) cal).generateId());
-                    } else {
+                    } else { // (1) update
                         CalEvent calEvent = (CalEvent) getIntent().getSerializableExtra("event");
-                        if (calEvent!=null){
-                            evt.setEventId(calEvent.getEventId());
-                        }
+                        evt.setEventId(calEvent.getEventId());
                     }
-                    System.out.println("-------------here-----------");
                     pcal.addEvent(evt);  // add == update (tree set collection)
-                    System.out.println(evt);
-                    System.out.println(cal);
-                    try {
-                        pcal.saveCalendar(getApplicationContext());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), PersonalCalendar.class));
+
+                    reserializePCal(pcal);
                 } else {
                     GCalendar gcal = (GCalendar) cal;
                     evt.setCalendar(gcal.getId());
-                    if (activityType == 0){ //create
-                        Thread thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    JSONParser.postEvent(evt);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                        thread.start();
-                        try {
-                            thread.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    } else { // (1) update
-                        CalEvent calEvent = (CalEvent) getIntent().getSerializableExtra("event");
-                        if (calEvent != null){
-                            evt.setEventId(calEvent.getEventId());
-                        }
-                        Thread thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    JSONParser.putEvent(evt);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
 
-                        thread.start();
-                        try {
-                            thread.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                    if (activityType == 0){ //create
+                        postEvent(evt); //uses HttpUrlConnection; creates event online
+                        // does not need to serialize the event. Groups.class will load it
+                    } else { // (1) update
+                        PCalendar pcal = deserializePCal();
+                        CalEvent calEvent = (CalEvent) getIntent().getSerializableExtra("event");
+
+                        evt.setEventId(calEvent.getEventId()); // updates the event's id of the created event evt
+                        putEvent(evt); //uses HttpUrlConnection; updates the event found online
+                        pcal.getGroup(gcal).addEvent(evt); // updates the event found offline
+
+                        reserializePCal(pcal);
                     }
                 }
 
                 finish();
-                startActivity(new Intent(getApplicationContext(), Groups.class));
             }
         });
+    }
+
+    private PCalendar deserializePCal(){
+        PCalendar pcal = null;
+        try {
+            pcal = PCalendar.loadCalendar(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return pcal;
+    }
+
+    private void reserializePCal(PCalendar pcal){
+        try {
+            pcal.saveCalendar(EventAdd.this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void putEvent(CalEvent evt){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONParser.putEvent(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void postEvent(CalEvent evt){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONParser.postEvent(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
