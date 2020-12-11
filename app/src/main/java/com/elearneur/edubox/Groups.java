@@ -179,16 +179,18 @@ public class Groups extends AppCompatActivity {
                 //load group items ui
                 int index = 0;
                 for (GCalendar group : groups){
+                    String color = PCalendar.getColor(index++);
                     LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.groups_item, null);
                     CardView item = newView.findViewById(R.id.groups_item_item);
                     TextView itemText = newView.findViewById(R.id.groups_item_item_text);
                     itemText.setText(group.getGroupName());
-                    item.setCardBackgroundColor(Color.parseColor(pcal.getColor(index++)));
+                    item.setCardBackgroundColor(Color.parseColor(color));
                     item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getApplicationContext(), GroupCalendar.class);
                             intent.putExtra("calendar", group);
+                            intent.putExtra("color", color);
                             startActivity(intent);
                         }
                     });

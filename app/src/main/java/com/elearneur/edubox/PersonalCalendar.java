@@ -350,7 +350,7 @@ public class PersonalCalendar extends AppCompatActivity {
                             }
                         });
                         CardView group_color = ll_event.findViewById(R.id.left_color);
-                        group_color.setCardBackgroundColor(Color.parseColor(pcal.getColor(index)));
+                        group_color.setCardBackgroundColor(Color.parseColor(PCalendar.getColor(index)));
                         TextView evt_title = ll_event.findViewById(R.id.label_title);
                         TextView evt_calName = ll_event.findViewById(R.id.label_calName);
                         evt_title.setText(evt.getTitle());

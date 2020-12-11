@@ -66,7 +66,7 @@ public class PCalendar extends Calendar {
         else return num;
     }
 
-    public String getColor(int index){
+    public static String getColor(int index){
         String[] colors = new String[]{
                 "#FF0000", //RED
                 "#00FF00" , //GREEN

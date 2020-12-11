@@ -3,6 +3,7 @@ package com.elearneur.edubox;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
 import android.content.ClipData;
@@ -36,6 +37,7 @@ public class GroupCalendar extends AppCompatActivity {
     private GCalendar gcal;
     private Dialog editEvent;
     private String date;
+    private String color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +122,8 @@ public class GroupCalendar extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        color = (String) getIntent().getStringExtra("color");
     }
 
     @Override
@@ -282,7 +286,8 @@ public class GroupCalendar extends AppCompatActivity {
                         editEvent.show();
                     }
                 });
-
+                CardView group_color = ll_event.findViewById(R.id.left_color);
+                group_color.setCardBackgroundColor(Color.parseColor(color));
                 TextView evt_title = ll_event.findViewById(R.id.label_title);
                 TextView evt_calName = ll_event.findViewById(R.id.label_calName);
                 evt_title.setText(evt.getTitle());
