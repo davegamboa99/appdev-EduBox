@@ -11,7 +11,7 @@ import java.util.Scanner;
 import com.google.gson.*;
 
 public class JSONParser {
-    private static final String IP = "192.168.254.101";
+    private static final String IP = "192.168.42.112"; //"192.168.254.101";
     private static final Gson gson = new Gson();
 
     private static String getJSON(String urlString) throws IOException {

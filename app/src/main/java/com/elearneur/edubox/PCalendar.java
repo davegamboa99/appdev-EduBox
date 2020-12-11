@@ -66,6 +66,21 @@ public class PCalendar extends Calendar {
         else return num;
     }
 
+    public String getColor(int index){
+        String[] colors = new String[]{
+                "#FF0000", //RED
+                "#00FF00" , //GREEN
+                "#0000FF" //BLUE
+        };
+        String color = "";
+        try {
+            color = colors[index%colors.length];
+        } catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+        return color;
+    }
+
     public String toStringGroups(){
         String s = "Groups[";
         for (GCalendar group : groups){

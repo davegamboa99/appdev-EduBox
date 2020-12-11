@@ -222,15 +222,7 @@ public class EventAdd extends AppCompatActivity {
                         evt.setEventId(calEvent.getEventId()); // updates the event's id of the created event evt
                         putEvent(evt); //uses HttpUrlConnection; updates the event found online
                     }
-                    System.out.println("GCAL:");
-                    for (CalEvent calEvent: pcal.getGroup(gcal).getEvents()){
-                        System.out.println(calEvent);
-                    }
                     pcal.getGroup(gcal).addEvent(evt); // updates the event found offline
-                    System.out.println("GCAL:");
-                    for (CalEvent calEvent: pcal.getGroup(gcal).getEvents()){
-                        System.out.println(calEvent);
-                    }
                 }
                 reserializePCal(pcal);
                 finish();

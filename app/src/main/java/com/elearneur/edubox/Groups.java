@@ -1,6 +1,7 @@
 package com.elearneur.edubox;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -175,11 +177,13 @@ public class Groups extends AppCompatActivity {
             TreeSet<GCalendar> groups = pcal.getGroups();
             if (groups != null){
                 //load group items ui
+                int index = 0;
                 for (GCalendar group : groups){
                     LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.groups_item, null);
-                    Button item = newView.findViewById(R.id.groups_item_item);
-                    item.setText(group.getGroupName());
-                    // set item background tint
+                    CardView item = newView.findViewById(R.id.groups_item_item);
+                    TextView itemText = newView.findViewById(R.id.groups_item_item_text);
+                    itemText.setText(group.getGroupName());
+                    item.setCardBackgroundColor(Color.parseColor(pcal.getColor(index++)));
                     item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
