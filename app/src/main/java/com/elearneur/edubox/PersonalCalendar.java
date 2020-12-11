@@ -3,6 +3,7 @@ package com.elearneur.edubox;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -259,6 +260,7 @@ public class PersonalCalendar extends AppCompatActivity {
         TreeSet<GCalendar> gcals = pcal.getGroups();
         TreeSet<CalEvent> evts;
         if (gcals != null){
+            int index = 0;
             for (GCalendar gcal : gcals){
                 evts = gcal.getEvents();
                 if (evts != null){
@@ -347,6 +349,8 @@ public class PersonalCalendar extends AppCompatActivity {
                                 editEvent.show();
                             }
                         });
+                        CardView group_color = ll_event.findViewById(R.id.left_color);
+                        group_color.setCardBackgroundColor(Color.parseColor(pcal.getColor(index)));
                         TextView evt_title = ll_event.findViewById(R.id.label_title);
                         TextView evt_calName = ll_event.findViewById(R.id.label_calName);
                         evt_title.setText(evt.getTitle());
@@ -356,6 +360,7 @@ public class PersonalCalendar extends AppCompatActivity {
                         events_container.addView(ll_event);
                     }
                 }
+                index++;
             }
         }
     }

@@ -72,13 +72,7 @@ public class PCalendar extends Calendar {
                 "#00FF00" , //GREEN
                 "#0000FF" //BLUE
         };
-        String color = "";
-        try {
-            color = colors[index%colors.length];
-        } catch (ArrayIndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
-        return color;
+        return colors[index%colors.length];
     }
 
     public String toStringGroups(){
