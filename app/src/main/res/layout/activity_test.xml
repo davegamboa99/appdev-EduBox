@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".Test">
+
+
+    <!--    <com.shawnlin.numberpicker.NumberPicker-->
+    <!--        android:id="@+id/day_picker"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_centerInParent="true"-->
+    <!--        app:np_orientation="horizontal"-->
+    <!--        app:np_selectedTextColor="@color/black"-->
+    <!--        app:np_selectedTextSize="30dp"-->
+    <!--        app:np_textColor="@android:color/darker_gray"-->
+    <!--        app:np_textSize="25dp"-->
+    <!--        app:np_value="3"-->
+    <!--        app:np_wheelItemCount="6" />-->
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/eventCalendarList"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+    <Button
+        android:id="@+id/btnTest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Remind me in 10 seconds" />
+</LinearLayout>

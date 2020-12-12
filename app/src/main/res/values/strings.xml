@@ -29,4 +29,33 @@
     <string name="disconnections">Disconnections</string>
     <string name="hourly">Hourly Prediction Speed</string>
     <!--Franz string-->
+    <string name="notification">Notifications</string>
+    <string name="speech">speech</string>
+    <string name="leftIcon">lefticon</string>
+    <string name="completed">completed</string>
+    <string name="read">read</string>
+    <string name="border">border</string>
+    <string name="textview">TextView</string>
+    <string name="event_title">Event Title</string>
+    <string name="event_date">Event Date</string>
+    <string name="event_time">Event Time</string>
+    <string name="event_content">Event Content</string>
+    <string name="event_info">Event Info</string>
+    <string name="event_button">Event Button</string>
+    <string name="number_picker_formatter" />
+    <string name="time">07:30 am</string>
+    <string name="progressCircle">TODO</string>
+    <string name="eventTitleCalendar">MS Teams Meeting</string>
+    <string name="eventSubTitleCalendar">Automata Theory</string>
+    <string name="bullet">bullet</string>
+    <string name="completed_events">Completed Events</string>
+
+    <string-array name="types">
+        <item>Content Type</item>
+        <item>None</item>
+        <item>Text/Image</item>
+        <item>Video Stream</item>
+        <item>Video Call</item>
+        <item>Doc Collab</item>
+    </string-array>
 </resources>

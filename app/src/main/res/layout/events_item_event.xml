@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/event_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/left_color"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_margin="8dp"
+        android:layout_weight="0"
+        app:cardBackgroundColor="#3F51B5"
+        app:cardCornerRadius="6.5dp"
+        app:cardElevation="0dp">
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/label_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="MS Teams Meeting" />
+
+        <TextView
+            android:id="@+id/label_calName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Automata Theory"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/day_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:np_dividerColor="@android:color/transparent"
+        app:np_orientation="horizontal"
+        app:np_selectedTextColor="@color/black"
+        app:np_selectedTextSize="30dp"
+        app:np_textColor="@android:color/darker_gray"
+        app:np_textSize="25dp"
+        app:np_value="3"
+        app:np_wheelItemCount="6" />
+</LinearLayout>
