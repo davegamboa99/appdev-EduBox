@@ -1,8 +1,7 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.calendar;
 
 import android.content.Context;
 
-import java.util.LinkedList;
 import java.util.Random;
 import java.util.TreeSet;
 import java.io.FileInputStream;
@@ -10,8 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Date;
 
 public class PCalendar extends Calendar {
     private TreeSet<GCalendar> groups;

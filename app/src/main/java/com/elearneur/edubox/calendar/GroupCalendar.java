@@ -1,4 +1,4 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.calendar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.elearneur.edubox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shawnlin.numberpicker.NumberPicker;
 
@@ -199,6 +200,7 @@ public class GroupCalendar extends AppCompatActivity {
         TreeSet<CalEvent> evts = gcal.getEvents();
         if (evts != null){
             for (CalEvent evt : evts){
+                System.out.println("EVENT = " + evt);
                 if (!date.equals(evt.getDate())) continue;
 
                 LinearLayout ll_time = (LinearLayout) inflater.inflate(R.layout.events_item_time, null);

@@ -1,9 +1,7 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.calendar;
 
-import java.util.Date;
 import java.util.TreeSet;
 import java.io.Serializable;
-import java.util.stream.StreamSupport;
 
 public class Calendar implements Serializable {
     protected int id;

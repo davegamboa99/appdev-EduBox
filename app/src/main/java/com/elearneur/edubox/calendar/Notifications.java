@@ -1,4 +1,4 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.elearneur.edubox.Adapter.NotificationAdaptor;
+import com.elearneur.edubox.R;
 
 import java.util.ArrayList;
 

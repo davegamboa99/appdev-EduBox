@@ -3,7 +3,6 @@ package com.elearneur.edubox.ui.camera;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -39,7 +38,7 @@ public class CameraFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         menu.removeItem(R.id.action_analysis);
-        menu.removeItem(R.id.action_calendar);
+        menu.removeItem(R.id.toolbar_groups);
         menu.removeItem(R.id.action_sound);
         menu.removeItem(R.id.action_check);
     }

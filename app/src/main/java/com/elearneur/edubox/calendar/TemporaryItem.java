@@ -1,4 +1,4 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.calendar;
 
 import java.util.ArrayList;
 import java.util.List;

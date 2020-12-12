@@ -1,4 +1,4 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.calendar;
 
 public class Event {
     private String date, time, title, info, contentType, timeRange;

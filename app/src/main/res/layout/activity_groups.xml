@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Groups">
+    tools:context=".calendar.Groups">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:clickable="true"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="@color/primary_color"
         app:srcCompat="@drawable/ic_group_add"
         app:tint="@color/white" />
 
@@ -87,7 +87,7 @@
         android:layout_marginBottom="170dp"
         android:clickable="true"
         android:visibility="invisible"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="@color/primary_color"
         app:srcCompat="@drawable/ic_group_create"
         app:tint="@color/white" />
 
@@ -102,7 +102,7 @@
         android:layout_marginBottom="100dp"
         android:clickable="true"
         android:visibility="invisible"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="@color/primary_color"
         app:srcCompat="@drawable/ic_group_join"
         app:tint="@color/white" />
 </RelativeLayout>

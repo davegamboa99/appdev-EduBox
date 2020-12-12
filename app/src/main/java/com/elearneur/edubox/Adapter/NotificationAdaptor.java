@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.elearneur.edubox.Event;
-import com.elearneur.edubox.NotificationView;
+import com.elearneur.edubox.calendar.Event;
+import com.elearneur.edubox.calendar.NotificationView;
 import com.elearneur.edubox.R;
 
 import java.util.ArrayList;

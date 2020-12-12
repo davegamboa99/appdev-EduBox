@@ -1,8 +1,7 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.calendar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
@@ -22,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.elearneur.edubox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shawnlin.numberpicker.NumberPicker;
 
@@ -95,11 +95,11 @@ public class PersonalCalendar extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar;
+//        Toolbar toolbar;
         FloatingActionButton addevent;
 
-        toolbar = findViewById(R.id.toolbar_calendar);
-        setSupportActionBar(toolbar);
+//        toolbar = findViewById(R.id.toolbar_calendar);
+//        setSupportActionBar(toolbar);
         addevent = findViewById(R.id.addevent);
 
         addevent.setOnClickListener(new View.OnClickListener() {

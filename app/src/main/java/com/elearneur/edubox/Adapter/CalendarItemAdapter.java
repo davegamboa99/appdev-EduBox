@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elearneur.edubox.R;
-import com.elearneur.edubox.TemporaryItem;
+import com.elearneur.edubox.calendar.TemporaryItem;
 
 import java.util.List;
 

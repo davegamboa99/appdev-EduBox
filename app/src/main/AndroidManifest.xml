@@ -9,20 +9,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EduBox">
-        <activity android:name=".Test"></activity>
-        <activity android:name=".NotificationView" />
-        <activity android:name=".Notifications" />
-        <activity android:name=".GroupCalendar" />
-        <activity android:name=".PersonalCalendar" />
-        <activity
-            android:name=".EventAdd"
-            android:parentActivityName=".PersonalCalendar" />
-        <activity android:name=".GroupJoin" />
-        <activity android:name=".GroupCreate" />
-        <activity android:name=".Groups" />
-        <activity android:name=".MainActivity">
         android:theme="@style/Theme.EduBox.Fullscreen">
+<!--        android:theme="@style/Theme.EduBox">-->
+
+        <activity android:name=".calendar.Test"></activity>
+        <activity android:name=".calendar.NotificationView" />
+        <activity android:name=".calendar.Notifications" />
+        <activity android:name=".calendar.GroupCalendar" />
+        <activity android:name=".calendar.PersonalCalendar" />
+        <activity
+            android:name=".calendar.EventAdd"
+            android:parentActivityName=".calendar.PersonalCalendar" />
+        <activity android:name=".calendar.GroupJoin" />
+        <activity android:name=".calendar.GroupCreate" />
+        <activity android:name=".calendar.Groups" />
+<!--        <activity android:name=".MainActivity">-->
+
+
         <!-- Detailed Analysis Activity -->
         <activity
             android:name=".detailedanalysis.DetailedAnalysisActivity"

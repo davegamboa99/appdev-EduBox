@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elearneur.edubox.ui.bottom_nav.TabDashboardFragment;

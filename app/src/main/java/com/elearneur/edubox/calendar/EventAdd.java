@@ -1,15 +1,11 @@
-package com.elearneur.edubox;
+package com.elearneur.edubox.calendar;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,14 +15,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.elearneur.edubox.R;
+
 import java.util.Calendar;
 
 //import com.google.gson.*;
 
 import java.io.IOException;
+import java.util.TreeSet;
 
 public class EventAdd extends AppCompatActivity {
-    private com.elearneur.edubox.Calendar cal;
+    private com.elearneur.edubox.calendar.Calendar cal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +142,7 @@ public class EventAdd extends AppCompatActivity {
             }
         });
 
-        cal = (com.elearneur.edubox.Calendar) getIntent().getSerializableExtra("calendar");
+        cal = (com.elearneur.edubox.calendar.Calendar) getIntent().getSerializableExtra("calendar");
 
         // set the message below the add/edit button
         String calName;
@@ -217,12 +217,13 @@ public class EventAdd extends AppCompatActivity {
 
                     if (activityType == 0){ //create
                         postEvent(evt); //uses HttpUrlConnection; creates event online
+                        getEventsFromServer(pcal.getGroup(gcal));
                     } else { // (1) update
                         CalEvent calEvent = (CalEvent) getIntent().getSerializableExtra("event");
                         evt.setEventId(calEvent.getEventId()); // updates the event's id of the created event evt
                         putEvent(evt); //uses HttpUrlConnection; updates the event found online
+                        pcal.getGroup(gcal).addEvent(evt); // updates the event found offline
                     }
-                    pcal.getGroup(gcal).addEvent(evt); // updates the event found offline
                 }
                 reserializePCal(pcal);
                 finish();
@@ -283,6 +284,33 @@ public class EventAdd extends AppCompatActivity {
         thread.start();
         try {
             thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getEventsFromServer(GCalendar cal){
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CalEvent[] evts = null;
+                try {
+                    evts = JSONParser.getEvents(cal.getId());
+                } catch (IOException e){
+                    e.printStackTrace();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                if (evts != null){
+                    for (CalEvent evt : evts){
+                        cal.addEvent(evt);
+                    }
+                }
+            }
+        });
+        thread2.start();
+        try {
+            thread2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
