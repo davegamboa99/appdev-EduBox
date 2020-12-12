@@ -38,11 +38,7 @@ public class Calendar implements Serializable {
         }
         if (flag) {
             evt.setCalendar(id);
-            boolean b = events.add(evt);
-            if (b)
-                System.out.println(evt.getTitle() + " successfully added");
-            else
-                System.out.println(evt.getTitle() + " added failed");
+            events.add(evt);
         }
     }
 

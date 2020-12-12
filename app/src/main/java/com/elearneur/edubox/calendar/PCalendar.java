@@ -66,8 +66,17 @@ public class PCalendar extends Calendar {
     public static String getColor(int index){
         String[] colors = new String[]{
                 "#FF0000", //RED
-                "#00FF00" , //GREEN
-                "#0000FF" //BLUE
+                "#800000", //MAROON
+                "#FFFF00", //YELLOW
+                "#808000", //OLIVE
+                "#00FF00", //LIME
+                "#008000" , //GREEN
+//                "#008000", //AQUA
+//                "#008080", //TEAL
+                "#0000FF", //BLUE
+                "#000080", //NAVY
+                "#FF00FF", //FUCHSIA
+                "#800080" //PURPLE
         };
         return colors[index%colors.length];
     }

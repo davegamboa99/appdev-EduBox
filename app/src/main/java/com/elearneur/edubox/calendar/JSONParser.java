@@ -10,7 +10,7 @@ import java.util.Scanner;
 import com.google.gson.*;
 
 public class JSONParser {
-    private static final String IP = "192.168.42.170"; //"192.168.254.101";
+    private static final String IP = "monching.pythonanywhere.com";
     private static final Gson gson = new Gson();
 
     private static String getJSON(String urlString) throws IOException {
@@ -18,6 +18,7 @@ public class JSONParser {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.connect();
+
         int responsecode = conn.getResponseCode();
         String inline = "";
         if (responsecode == 200) {
@@ -91,7 +92,7 @@ public class JSONParser {
     public static CalEvent[] getEvents(int calendarId) throws IOException {
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/events/?calendar=";
+        urlString += "/events/?calendar=";
         urlString += calendarId;
         urlString += "&format=json";
         String json = getJSON(urlString);
@@ -105,7 +106,7 @@ public class JSONParser {
         System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/events/?format=json";
+        urlString += "/events/?format=json";
         return postJSON(json, urlString);
     }
 
@@ -114,7 +115,7 @@ public class JSONParser {
 //        System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/events/";
+        urlString += "/events/";
         urlString += event.getEventId();
         urlString += "/?format=json";
 //        System.out.println("URL = " + urlString);
@@ -128,7 +129,7 @@ public class JSONParser {
         System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/events/";
+        urlString += "/events/";
         urlString += event.getEventId();
         urlString += "/?format=json";
         System.out.println("URL = " + urlString);
@@ -138,7 +139,7 @@ public class JSONParser {
     public static GCalendar[] getGCalendars(int accountId) throws IOException {
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/calendars/?user=";
+        urlString += "/calendars/?user=";
         urlString += accountId;
         urlString += "&format=json";
         // System.out.println("URL = " + urlString);
@@ -153,7 +154,7 @@ public class JSONParser {
         System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/calendars/?format=json";
+        urlString += "/calendars/?format=json";
         String response = postJSON(json, urlString);
         System.out.println("Response = " + response);
         GCalendar gcal = gson.fromJson(response, GCalendar.class);
@@ -167,7 +168,7 @@ public class JSONParser {
         System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/calendars/";
+        urlString += "/calendars/";
         urlString += cal.getId();
         urlString += "/?format=json";
         return putJSON(json, urlString);
@@ -176,7 +177,7 @@ public class JSONParser {
     public static Member[] getMembers(int calendarId) throws IOException {
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/membership/?calendar=";
+        urlString += "/membership/?calendar=";
         urlString += calendarId;
         urlString += "&format=json";
         String json = getJSON(urlString);
@@ -193,7 +194,7 @@ public class JSONParser {
         System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/membership/?format=json";
+        urlString += "/membership/?format=json";
         return postJSON(json, urlString);
     }
 
@@ -202,7 +203,7 @@ public class JSONParser {
 //        System.out.println("JSON = " + json);
         String urlString = "http://";
         urlString += IP;
-        urlString += ":8000/membership/?calendar=";
+        urlString += "/membership/?calendar=";
         urlString += cal.getId();
         urlString += "&account=";
         urlString += member.getId();
@@ -214,7 +215,7 @@ public class JSONParser {
         if (data[0] != null){
             urlString = "http://";
             urlString += IP;
-            urlString += ":8000/membership/";
+            urlString += "/membership/";
             urlString += data[0].getId();
             urlString += "/?format=json";
             json = getJSON(urlString);

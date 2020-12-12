@@ -109,7 +109,6 @@ public class Groups extends AppCompatActivity {
                         if (gcals != null){
                             for (GCalendar group : gcals){
                                 pcal.addGroup(group);
-                                System.out.println(group);
                             }
                             savePcal();
                         }
@@ -179,9 +178,10 @@ public class Groups extends AppCompatActivity {
                     String color = PCalendar.getColor(index++);
                     LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.groups_item, null);
                     CardView item = newView.findViewById(R.id.groups_item_item);
-                    TextView itemText = newView.findViewById(R.id.groups_item_item_text);
+                    CardView itemColor = newView.findViewById(R.id.groups_item_color);
+                    TextView itemText = newView.findViewById(R.id.groups_item_text);
                     itemText.setText(group.getGroupName());
-                    item.setCardBackgroundColor(Color.parseColor(color));
+                    itemColor.setCardBackgroundColor(Color.parseColor(color));
                     item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
