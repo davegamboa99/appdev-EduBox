@@ -43,4 +43,8 @@ public class Account implements Serializable {
     public Member toMemberData(){
         return new Member(id, username);
     }
+
+    public String toString(){
+        return "Account[id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + "]";
+    }
 }

@@ -89,6 +89,23 @@ public class JSONParser {
         return "Response = " + responsecode;
     }
 
+    public static Account getAccount(String username, String password) throws IOException {
+        String urlString = "http://";
+        urlString += IP;
+        urlString += "/account/?username=";
+        urlString += username;
+        urlString += "&password=";
+        urlString += password;
+        urlString += "&format=json";
+        String json = getJSON(urlString);
+        Account[] accounts = gson.fromJson(json, Account[].class);
+        if (accounts.length>0){
+            return accounts[0];
+        } else {
+            return null;
+        }
+    }
+
     public static CalEvent[] getEvents(int calendarId) throws IOException {
         String urlString = "http://";
         urlString += IP;
