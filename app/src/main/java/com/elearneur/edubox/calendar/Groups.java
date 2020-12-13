@@ -75,6 +75,8 @@ public class Groups extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         initPcal();
+        getGroupsFromServer();
+        getEventsFromServer();
         loadGroups();
     }
 
@@ -117,14 +119,15 @@ public class Groups extends AppCompatActivity {
                     } catch (Exception e){
                         e.printStackTrace();
                     }
+                    getEventsFromServer();
                 }
             });
             thread1.start();
-            try {
-                thread1.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                thread1.join();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
@@ -149,14 +152,18 @@ public class Groups extends AppCompatActivity {
                             }
                             savePcal();
                         }
+                        if (group.equals(groups.last())){
+                            //loadGroups(); // error
+                            System.out.println("------------DONE----------");
+                        }
                     }
                 });
                 thread2.start();
-                try {
-                    thread2.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    thread2.join();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         }
     }
@@ -166,8 +173,8 @@ public class Groups extends AppCompatActivity {
         groups_container.removeAllViews();
         LayoutInflater inflater = this.getLayoutInflater();
 
-        getGroupsFromServer();
-        getEventsFromServer();
+//        getGroupsFromServer();
+//        getEventsFromServer();
 
         if (pcal != null){
             TreeSet<GCalendar> groups = pcal.getGroups();
