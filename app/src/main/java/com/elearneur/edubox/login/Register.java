@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elearneur.edubox.R;
@@ -15,6 +16,7 @@ import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 public class Register extends AppCompatActivity {
     EditText editTextFullname, editTextEmail, editTextUsername, editTextPassword;
+    TextView textViewCancel;
     Button buttonSignUp;
 
     @Override
@@ -27,6 +29,7 @@ public class Register extends AppCompatActivity {
         editTextUsername = (EditText) findViewById(R.id.username);
         editTextPassword = (EditText) findViewById(R.id.password);
         buttonSignUp = (Button) findViewById(R.id.buttonSignUp);
+        textViewCancel = findViewById(R.id.textViewCancel);
 
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +83,13 @@ public class Register extends AppCompatActivity {
                 else {
                     Toast.makeText(getApplicationContext(), "All fields are required", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        textViewCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

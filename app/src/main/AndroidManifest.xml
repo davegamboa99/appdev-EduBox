@@ -11,9 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EduBox.Fullscreen">
 
-        <activity android:name=".login.ForgotPassword" android:theme="@style/Theme.Design.Light.NoActionBar"/>
-        <activity android:name=".login.Register" android:theme="@style/Theme.Design.Light.NoActionBar"/>
-        <activity android:name=".login.Login" android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".login.ForgotPassword" android:theme="@style/Theme.EduBox.Fullscreen"/>
+        <activity android:name=".login.Register" android:theme="@style/Theme.EduBox.Fullscreen"/>
+        <activity android:name=".login.Login" android:theme="@style/Theme.EduBox.Fullscreen"/>
 
         <activity android:name=".calendar.Test"></activity>
         <activity android:name=".calendar.NotificationView" />
