@@ -5,9 +5,13 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="testRunner" value="PLATFORM" />
+<<<<<<< Updated upstream
         <option name="distributionType" value="LOCAL" />
+=======
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+>>>>>>> Stashed changes
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="/home/desierto/.gradle/wrapper/dists/gradle-6.5-bin" />
+        <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />

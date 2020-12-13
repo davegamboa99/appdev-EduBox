@@ -7,5 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+<<<<<<< Updated upstream
     <color name="dark_blue">#0D47A1</color>
+=======
+    <color name="white_dark">#CCCCCC</color>
+    <color name="primary_off_white">#F6F9FB</color>
+    <!--  Detailed Analysis  -->
+    <color name="blue_500">#2196F3</color>
+    <color name="grey_650">#707070</color>
+    <!--  Franz colors  -->
+>>>>>>> Stashed changes
 </resources>
