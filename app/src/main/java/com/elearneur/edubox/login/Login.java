@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         editTextUsername = (EditText) findViewById(R.id.username_login);
         editTextPassword = (EditText) findViewById(R.id.password_login);
@@ -41,6 +42,9 @@ public class Login extends AppCompatActivity {
                 Intent intent = new Intent(Login.this, MainActivityMenu.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
 
                 /*
                 if(!username.equals("") && !password.equals("")){
@@ -83,8 +87,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "All fields are required", Toast.LENGTH_SHORT).show();
                 }
                  */
-            }
-        });
+
 
         TextView tv02 = (TextView) this.findViewById(R.id.textView02);
         TextView tv3 = (TextView) this.findViewById(R.id.textView3);
