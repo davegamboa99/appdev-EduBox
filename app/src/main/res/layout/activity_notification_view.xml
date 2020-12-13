@@ -6,11 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-<<<<<<< Updated upstream
-    tools:context=".NotificationView">
-=======
     tools:context=".notifications.NotificationView">
->>>>>>> Stashed changes
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/notificationToolbar"

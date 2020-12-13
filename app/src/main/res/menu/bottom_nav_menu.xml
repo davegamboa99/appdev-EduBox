@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/page_Dashboard"
+        android:enabled="true"
+        android:icon="@drawable/ic_dashboard_rounded"
+        android:title="@string/title_dashboard" />
+    <item
+        android:id="@+id/page_Calendar"
+        android:enabled="true"
+        android:icon="@drawable/ic_calendar_rounded"
+        android:title="@string/title_calendar" />
+    <item
+        android:id="@+id/page_Notifications"
+        android:enabled="true"
+        android:icon="@drawable/ic_bell_rounded"
+        android:title="@string/title_notifications" />
+</menu>

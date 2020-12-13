@@ -1,0 +1,1 @@
+Place notifications classes in this package
