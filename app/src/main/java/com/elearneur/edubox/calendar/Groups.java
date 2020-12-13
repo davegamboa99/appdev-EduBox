@@ -76,7 +76,6 @@ public class Groups extends AppCompatActivity {
         super.onResume();
         initPcal();
         getGroupsFromServer();
-        getEventsFromServer();
         loadGroups();
     }
 
@@ -134,7 +133,9 @@ public class Groups extends AppCompatActivity {
     public void getEventsFromServer(){
         TreeSet<GCalendar> groups = pcal.getGroups();
         if (groups != null){
+            int count = 0;
             for (GCalendar group : groups){
+                final int c = count;
                 Thread thread2 = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -154,11 +155,12 @@ public class Groups extends AppCompatActivity {
                         }
                         if (group.equals(groups.last())){
                             //loadGroups(); // error
-                            System.out.println("------------DONE----------");
+//                            System.out.println("------------DONE----------" + c);
                         }
                     }
                 });
                 thread2.start();
+                count++;
 //                try {
 //                    thread2.join();
 //                } catch (InterruptedException e) {

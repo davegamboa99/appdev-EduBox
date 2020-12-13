@@ -8,6 +8,12 @@ public class Account implements Serializable {
     private String email = "";
     private String password = "";
 
+    public class JSONPostPutData {
+        private String username = Account.this.username;
+        private String email = Account.this.email;
+        private String password = Account.this.password;
+    }
+
     public int getId() {
         return id;
     }

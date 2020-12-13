@@ -106,6 +106,26 @@ public class JSONParser {
         }
     }
 
+    public static String postAccount(Account acc) throws IOException {
+        String json = gson.toJson(acc.new JSONPostPutData());
+        System.out.println("JSON = " + json);
+        String urlString = "http://";
+        urlString += IP;
+        urlString += "/account/?format=json";
+        return postJSON(json, urlString);
+    }
+
+    public static String putAccount(Account acc) throws IOException {
+        String json = gson.toJson(acc.new JSONPostPutData());
+        System.out.println("JSON = " + json);
+        String urlString = "http://";
+        urlString += IP;
+        urlString += "/account/";
+        urlString += acc.getId();
+        urlString += "/?format=json";
+        return putJSON(json, urlString);
+    }
+
     public static CalEvent[] getEvents(int calendarId) throws IOException {
         String urlString = "http://";
         urlString += IP;
