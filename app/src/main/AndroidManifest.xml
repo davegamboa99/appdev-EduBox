@@ -10,7 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EduBox.Fullscreen">
-<!--        android:theme="@style/Theme.EduBox">-->
+
+        <activity android:name=".login.ForgotPassword" android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".login.Register" android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".login.Login" android:theme="@style/Theme.Design.Light.NoActionBar"/>
 
         <activity android:name=".calendar.Test"></activity>
         <activity android:name=".calendar.NotificationView" />
@@ -32,10 +35,6 @@
             android:label="@string/title_activity_detailed_analysis"
             android:theme="@style/Theme.EduBox.NoActionBar"
             android:parentActivityName=".MainActivityMenu" />
-        <!-- Login Activity -->
-        <activity
-            android:name=".login.LoginActivity"
-            android:theme="@style/Theme.EduBox.Fullscreen" /> <!-- Main Menu Activity -->
         <activity
             android:name=".MainActivityMenu"
             android:label="@string/title_activity_main_menu"

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.elearneur.edubox.login.LoginActivity;
+import com.elearneur.edubox.login.Login;
 
 public class SplashScreen extends AppCompatActivity {
     @Override
@@ -18,7 +18,7 @@ public class SplashScreen extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(SplashScreen.this, LoginActivity.class);
+                Intent i = new Intent(SplashScreen.this, Login.class);
                 SplashScreen.this.startActivity(i);
                 SplashScreen.this.finish();
             }

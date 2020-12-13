@@ -58,4 +58,8 @@
         <item>Video Call</item>
         <item>Doc Collab</item>
     </string-array>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
 </resources>
