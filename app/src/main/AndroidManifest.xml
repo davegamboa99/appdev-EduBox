@@ -18,14 +18,21 @@
         <activity android:name=".calendar.Test"></activity>
         <activity android:name=".calendar.NotificationView" />
         <activity android:name=".calendar.Notifications" />
-        <activity android:name=".calendar.GroupCalendar" />
+        <activity
+            android:name=".calendar.GroupCalendar"
+            android:theme="@style/Theme.EduBox.NoActionBar"
+            android:parentActivityName=".calendar.Groups" />
         <activity android:name=".calendar.PersonalCalendar" />
         <activity
             android:name=".calendar.EventAdd"
-            android:parentActivityName=".calendar.PersonalCalendar" />
+            android:theme="@style/Theme.EduBox.NoActionBar"
+            android:parentActivityName=".MainActivityMenu" />
         <activity android:name=".calendar.GroupJoin" />
         <activity android:name=".calendar.GroupCreate" />
-        <activity android:name=".calendar.Groups" />
+        <activity
+            android:name=".calendar.Groups"
+            android:theme="@style/Theme.EduBox.NoActionBar"
+            android:parentActivityName=".MainActivityMenu" />
 <!--        <activity android:name=".MainActivity">-->
 
 

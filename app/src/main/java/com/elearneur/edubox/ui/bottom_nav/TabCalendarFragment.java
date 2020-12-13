@@ -34,6 +34,7 @@ import com.elearneur.edubox.calendar.Groups;
 import com.elearneur.edubox.calendar.JSONParser;
 import com.elearneur.edubox.calendar.PCalendar;
 import com.elearneur.edubox.calendar.PersonalCalendar;
+import com.elearneur.edubox.detailedanalysis.DetailedAnalysisActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shawnlin.numberpicker.NumberPicker;
 
@@ -182,11 +183,15 @@ public class TabCalendarFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.toolbar_groups){
-            Intent intent = new Intent(getContext(), Groups.class);
-            intent.putExtra("userId", pcal.getAccount().getId());
-            startActivity(intent);
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.toolbar_groups:
+                intent = new Intent(getContext(), Groups.class);
+                intent.putExtra("userId", pcal.getAccount().getId());
+                startActivity(intent);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }

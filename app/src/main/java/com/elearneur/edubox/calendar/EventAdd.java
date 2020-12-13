@@ -49,7 +49,7 @@ public class EventAdd extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar_addevent);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         title = findViewById(R.id.event_input_title);
         date = findViewById(R.id.event_input_date);
