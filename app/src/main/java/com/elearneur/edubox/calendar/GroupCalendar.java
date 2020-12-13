@@ -107,6 +107,7 @@ public class GroupCalendar extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_group_calendar);
         toolbar.setTitle(gcal.getGroupName().toUpperCase());
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         editEvent = new Dialog(this);
 
@@ -173,6 +174,9 @@ public class GroupCalendar extends AppCompatActivity {
             intent.putExtra("calendar", gcal);
             intent.putExtra("activity_type", 1); // 0 means create; 1 for edit
             startActivity(intent);
+            finish();
+        }
+        else if(id == android.R.id.home){
             finish();
         }
         return true;

@@ -36,6 +36,7 @@ public class DetailedAnalysisActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //makes transition to swipe right
             case android.R.id.home:
                 finish();
                 return true;
