@@ -2,6 +2,8 @@ package com.elearneur.edubox.calendar;
 
 import java.io.Serializable;
 import java.lang.Comparable;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CalEvent implements Comparable<CalEvent>, Serializable {
     private int calendar;
