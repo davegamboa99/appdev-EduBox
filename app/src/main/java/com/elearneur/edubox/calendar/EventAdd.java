@@ -120,8 +120,8 @@ public class EventAdd extends AppCompatActivity {
         setTimeListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                String amPm = "am";
-                if (hourOfDay >= 12) amPm = "pm";
+                String amPm = "AM";
+                if (hourOfDay >= 12) amPm = "PM";
                 if (hourOfDay >= 13){
                     hourOfDay -= 12;
                 } else if (hourOfDay == 0){

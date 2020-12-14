@@ -89,6 +89,8 @@ public class GroupCalendar extends AppCompatActivity {
                 monthYear.setText(dates.getCurrentMonthYear());
                 dayWeek.setText(dates.getCurrentDayOfWeek());
                 initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
+                date = dates.getDateString();
+                loadEvents();
             }
         });
         prevMonth.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +100,8 @@ public class GroupCalendar extends AppCompatActivity {
                 monthYear.setText(dates.getCurrentMonthYear());
                 dayWeek.setText(dates.getCurrentDayOfWeek());
                 initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
+                date = dates.getDateString();
+                loadEvents();
             }
         });
 
