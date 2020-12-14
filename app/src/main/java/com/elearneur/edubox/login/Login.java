@@ -46,6 +46,8 @@ public class Login extends AppCompatActivity {
                 username = String.valueOf(editTextUsername.getText());
                 password = String.valueOf(editTextPassword.getText());
 
+                Toast toast1 = Toast.makeText(Login.this, "Wrong credentials!", Toast.LENGTH_SHORT);
+                Toast toast2 = Toast.makeText(Login.this, "Welcome!", Toast.LENGTH_LONG);
                 Thread thread = new Thread(new Runnable(){
                     @Override
                     public void run(){
@@ -58,10 +60,14 @@ public class Login extends AppCompatActivity {
 
                         if (acc != null){ // if not working, try !acc.isEmpty()
                             Intent intent = new Intent(getApplicationContext(), MainActivityMenu.class);
-                            //intent.put("account", acc);
+                            intent.putExtra("account", acc);
+                            System.out.println("Account = " + acc);
+                            toast2.setText("Welcome " + acc.getUsername() + "!");
+                            toast2.show();
                             startActivity(intent);
+                            finish();
                         } else {
-                            //Toast warning
+                            toast1.show();
                         }
                     }
                 });
