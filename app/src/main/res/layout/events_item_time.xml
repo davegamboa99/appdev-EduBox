@@ -8,21 +8,21 @@
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/left_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0"
-            app:srcCompat="@drawable/ic_circle_unchecked" />
+    <ImageView
+        android:id="@+id/left_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0"
+        app:srcCompat="@drawable/ic_circle_unchecked" />
 
-        <TextView
-            android:id="@+id/label_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="07:30 am"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/label_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="07:30 am"
+        android:textSize="18sp" />
 
 </LinearLayout>

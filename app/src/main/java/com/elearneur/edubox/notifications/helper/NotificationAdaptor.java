@@ -1,7 +1,8 @@
-package com.elearneur.edubox.Adapter;
+package com.elearneur.edubox.notifications.helper;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.elearneur.edubox.calendar.Event;
-import com.elearneur.edubox.calendar.NotificationView;
 import com.elearneur.edubox.R;
+import com.elearneur.edubox.notifications.NotificationView;
 
 import java.util.ArrayList;
 
-public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdaptor.ViewHolder> {
-    private ArrayList<Event> events;
-
-    public NotificationAdaptor(ArrayList<Event> list){
+public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdaptor.ViewHolder>{
+    private ArrayList<EventTest> events;
+    public NotificationAdaptor(ArrayList<EventTest> list){
         events = list;
     }
+
+
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
 
@@ -63,16 +64,16 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
 
         }
     }
-
     @NonNull
     @Override
-    public NotificationAdaptor.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_item, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notifications_fragment_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotificationAdaptor.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d("Input", "onBindViewHolder: "+position);
         holder.itemView.setTag(events.get(position));
         holder.eventTitle.setText(events.get(position).getTitle());
         holder.eventContent.setText(events.get(position).getContentType());
