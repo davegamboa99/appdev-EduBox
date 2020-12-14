@@ -122,6 +122,7 @@ public class NetworkSpeed extends AppCompatActivity {
                     //test.setText(""+formatFileSize(d));
                     String n = dlSpeed.getText().toString();
                     SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.remove("Data");
                     editor.putString(Data, n);
                     editor.commit();
                     // toStore = dlSpeed.getText().toString();
