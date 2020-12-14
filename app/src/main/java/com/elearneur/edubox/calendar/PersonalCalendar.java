@@ -84,6 +84,7 @@ public class PersonalCalendar extends AppCompatActivity {
                 monthYear.setText(dates.getCurrentMonthYear());
                 dayWeek.setText(dates.getCurrentDayOfWeek());
                 initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
+                date = dates.getDateString();
             }
         });
         prevMonth.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +94,7 @@ public class PersonalCalendar extends AppCompatActivity {
                 monthYear.setText(dates.getCurrentMonthYear());
                 dayWeek.setText(dates.getCurrentDayOfWeek());
                 initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
+                date = dates.getDateString();
             }
         });
 

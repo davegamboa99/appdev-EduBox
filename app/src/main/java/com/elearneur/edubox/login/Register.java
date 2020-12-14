@@ -12,7 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elearneur.edubox.R;
+import com.elearneur.edubox.calendar.Account;
+import com.elearneur.edubox.calendar.JSONParser;
+import com.google.gson.Gson;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
+
+import java.io.IOException;
 
 public class Register extends AppCompatActivity {
     EditText editTextFullname, editTextEmail, editTextUsername, editTextPassword;
@@ -35,53 +40,44 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String fullname, email, username, password;
-                fullname = String.valueOf(editTextFullname.getText());
+                Account acc = new Account();
+
+                fullname = String.valueOf(editTextFullname.getText()); // to be added in models
                 email = String.valueOf(editTextEmail.getText());
                 username = String.valueOf(editTextUsername.getText());
                 password = String.valueOf(editTextPassword.getText());
 
-                if(!fullname.equals("") && !email.equals("") && !username.equals("") && !password.equals("")){
+                acc.setUsername(username);
+                acc.setEmail(email);
+                acc.setPassword(password);
 
-
-                Handler handler = new Handler();
-                handler.post(new Runnable() {
+                Toast toast1 = Toast.makeText(Register.this, "Success!", Toast.LENGTH_LONG);
+                Toast toast2 = Toast.makeText(Register.this, "Unsuccessful!", Toast.LENGTH_SHORT);
+                Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-
-                            //Starting Write and Read data with URL
-                            //Creating array for parameters
-                            String[] field = new String[4];
-                            field[0] = "fullname";
-                            field[1] = "email";
-                            field[2] = "username";
-                            field[3] = "password";
-                            //Creating array for data
-                            String[] data = new String[4];
-                            data[0] = fullname;
-                            data[1] = email;
-                            data[2] = username;
-                            data[3] = password;
-                            PutData putData = new PutData("http://192.168.1.4/edubox/signup.php", "POST", field, data);
-                            if (putData.startPut()) {
-                                if (putData.onComplete()) {
-                                    String result = putData.getResult();
-                                    if(result.equals("Sign Up Successfully")){
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), Login.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
+                        try {
+                            String jsonResponse = JSONParser.postAccount(acc);
+                            Gson gson = new Gson();
+                            Account acc2 = gson.fromJson(jsonResponse, Account.class); // turn response into account instance/s
+                            if (acc2!= null && acc2.getId() != 0){ // check if the response is intended for Account.class (id starts at 1 in the server)
+                                Intent intent = new Intent(Register.this, Login.class);
+                                toast1.show();
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                toast2.show();
                             }
-                            //End Write and Read data with URL
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    });
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "All fields are required", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });

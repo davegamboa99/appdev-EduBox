@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -92,8 +93,52 @@ public class Groups extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         initPcal();
-        getGroupsFromServer();
+//        getGroupsFromServer();
+        new LoadDataFromServer().execute();
         loadGroups();
+    }
+
+    private class LoadDataFromServer extends AsyncTask<Void, Void, Void> {
+
+        protected Void doInBackground(Void... params) {
+            try {
+                int userId = getIntent().getIntExtra("userId", 0);
+                GCalendar[] gcals = JSONParser.getGCalendars(userId);
+                CalEvent[] evts = null;
+                GCalendar gCalendar;
+                if (gcals != null){
+                    for (GCalendar group : gcals){
+                        pcal.addGroup(group);
+                        gCalendar = pcal.getGroup(group);
+
+                        try {
+                            evts = JSONParser.getEvents(gCalendar.getId());
+                        } catch (IOException e){
+                            e.printStackTrace();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        if (evts != null){
+                            for (CalEvent evt : evts){
+                                gCalendar.addEvent(evt);
+                            }
+                            savePcal();
+                        }
+                    }
+                    savePcal();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+            loadGroups();
+        }
     }
 
     private void initPcal(){
