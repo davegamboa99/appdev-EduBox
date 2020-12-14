@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -12,9 +13,15 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.elearneur.edubox.MainActivityMenu;
 import com.elearneur.edubox.R;
+import com.elearneur.edubox.calendar.Account;
+import com.elearneur.edubox.calendar.JSONParser;
+import com.vishnusivadas.advanced_httpurlconnection.PutData;
+
+import java.io.IOException;
 
 public class Login extends AppCompatActivity {
     EditText editTextUsername, editTextPassword;
@@ -34,60 +41,52 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String username, password;
+                Account acc = new Account();
 
                 username = String.valueOf(editTextUsername.getText());
                 password = String.valueOf(editTextPassword.getText());
 
-                Intent intent = new Intent(Login.this, MainActivityMenu.class);
-                startActivity(intent);
-                finish();
-
-                /*
-                if(!username.equals("") && !password.equals("")){
-
-
-                    Handler handler = new Handler();
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            //Starting Write and Read data with URL
-                            //Creating array for parameters
-                            String[] field = new String[2];
-                            field[0] = "username";
-                            field[1] = "password";
-                            //Creating array for data
-                            String[] data = new String[2];
-                            data[0] = username;
-                            data[1] = password;
-                            PutData putData = new PutData("http://192.168.1.4/edubox/login.php", "POST", field, data);
-                            if (putData.startPut()) {
-                                if (putData.onComplete()) {
-                                    String result = putData.getResult();
-                                    if(result.equals("Login Successfully")){
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), Welcome.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            //End Write and Read data with URL
+                Thread thread = new Thread(new Runnable(){
+                    @Override
+                    public void run(){
+                        Account acc = null;
+                        try {
+                            acc = JSONParser.getAccount(username, password);
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    });
+
+                        if (acc != null){ // if not working, try !acc.isEmpty()
+                            Intent intent = new Intent(getApplicationContext(), MainActivityMenu.class);
+                            //intent.put("account", acc);
+                            startActivity(intent);
+                        } else {
+                            //Toast warning
+                        }
+                    }
+                });
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), "All fields are required", Toast.LENGTH_SHORT).show();
-                }
-                 */
+
             }
         });
 
+
+        TextView tv01 = (TextView) this.findViewById(R.id.textView01);
         TextView tv02 = (TextView) this.findViewById(R.id.textView02);
         TextView tv3 = (TextView) this.findViewById(R.id.textView3);
+
+        tv01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, MainActivityMenu.class);
+                startActivity(intent);
+            }
+        });
 
 
         tv02.setOnClickListener(new View.OnClickListener() {
