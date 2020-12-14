@@ -19,6 +19,8 @@ import com.elearneur.edubox.MainActivityMenu;
 import com.elearneur.edubox.R;
 import com.elearneur.edubox.calendar.Account;
 import com.elearneur.edubox.calendar.JSONParser;
+import com.elearneur.edubox.calendar.PCalendar;
+import com.elearneur.edubox.calendar.PersonalCalendar;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 import java.io.IOException;
@@ -33,6 +35,20 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        try { // goto MainActivityMenu if account is already available
+            PCalendar pcal = PCalendar.loadCalendar(Login.this);
+            if (pcal != null && pcal.getAccount() != null){
+                Intent intent = new Intent(Login.this, MainActivityMenu.class);
+                startActivity(intent);
+                finish();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         editTextUsername = (EditText) findViewById(R.id.username_login);
         editTextPassword = (EditText) findViewById(R.id.password_login);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
