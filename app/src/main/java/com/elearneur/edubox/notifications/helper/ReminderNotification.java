@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.provider.Settings;
 import android.view.Gravity;
 import android.view.View;
@@ -36,6 +37,11 @@ public class ReminderNotification extends BroadcastReceiver {
         Intent voiceNotification = new Intent(context.getApplicationContext(), VoiceNotification.class);
         String eventDetails = "New event " + eventTitle + " at " + eventTime + "Today! It is a" + eventInfo;
         voiceNotification.putExtra("eventDetails",eventDetails);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //context.startForegroundService(voiceNotification);
+        } else {
+            context.startService(voiceNotification);
+        }
         //context.startService(voiceNotification);
 
 
@@ -64,6 +70,7 @@ public class ReminderNotification extends BroadcastReceiver {
         builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(200, builder.build());
+        
 
         //AlertDialog box
         final WindowManager manager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);

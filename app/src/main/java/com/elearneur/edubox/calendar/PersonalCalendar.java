@@ -178,7 +178,9 @@ public class PersonalCalendar extends AppCompatActivity {
     private void loadPcalEvents(LinearLayout events_container, LayoutInflater inflater){
         TreeSet<CalEvent> evts = pcal.getEvents();
         if (evts != null) {
+
             for (CalEvent evt : evts){
+                System.out.println(evt.getEventId());
                 if (!date.equals(evt.getDate())) continue;
 
                 LinearLayout ll_time = (LinearLayout) inflater.inflate(R.layout.events_item_time, null);

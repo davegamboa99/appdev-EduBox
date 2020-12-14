@@ -9,23 +9,26 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/eventList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false">
+                    android:overScrollMode="never">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
@@ -33,13 +36,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/eventListCompleted"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
                     android:visibility="gone">
 
                 </androidx.recyclerview.widget.RecyclerView>
