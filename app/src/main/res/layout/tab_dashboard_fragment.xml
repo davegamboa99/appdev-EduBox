@@ -225,6 +225,7 @@
 
                         <TableRow>
                             <TextView
+                                android:id="@+id/time1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -235,6 +236,7 @@
                                 android:textSize="16sp"/>
 
                             <TextView
+                                android:id="@+id/speed1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -247,6 +249,7 @@
 
                         <TableRow>
                             <TextView
+                                android:id="@+id/time2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -257,6 +260,7 @@
                                 android:textSize="16sp"/>
 
                             <TextView
+                                android:id="@+id/speed2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -268,6 +272,7 @@
                         </TableRow>
                         <TableRow>
                             <TextView
+                                android:id="@+id/time3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -278,6 +283,7 @@
                                 android:textSize="16sp"/>
 
                             <TextView
+                                android:id="@+id/speed3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -290,6 +296,7 @@
 
                         <TableRow>
                             <TextView
+                                android:id="@+id/time4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -300,6 +307,7 @@
                                 android:textSize="16sp"/>
 
                             <TextView
+                                android:id="@+id/speed4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -323,7 +331,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="32dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="5dp"
@@ -362,6 +370,54 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dataPlan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chartView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:hint="0 MB"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.785"
+                        app:layout_constraintStart_toEndOf="@+id/setData"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                    <Button
+                        android:id="@id/setData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:text="Set-Up Data"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.065"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
