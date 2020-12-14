@@ -58,7 +58,6 @@ public class Register extends AppCompatActivity {
                     public void run() {
                         try {
                             String jsonResponse = JSONParser.postAccount(acc);
-                            System.out.println("RESPONSE JSON = " + jsonResponse);
                             Gson gson = new Gson();
                             Account acc2 = gson.fromJson(jsonResponse, Account.class); // turn response into account instance/s
                             if (acc2!= null && acc2.getId() != 0){ // check if the response is intended for Account.class (id starts at 1 in the server)
