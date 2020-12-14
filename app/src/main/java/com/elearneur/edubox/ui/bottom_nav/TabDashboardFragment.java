@@ -189,8 +189,8 @@ public class TabDashboardFragment extends Fragment {
             @Override
             public void onDownloadProgress(int count, final ProgressionModel progressModel) {
 
-                BigDecimal bigDecimal = new BigDecimal("" + progressModel.getDownloadSpeed());
-                float finalDownload = (bigDecimal.longValue() / 1000000);
+//                BigDecimal bigDecimal = new BigDecimal("" + progressModel.getDownloadSpeed());
+//                float finalDownload = (bigDecimal.longValue() / 1000000);
 
                 BigDecimal bd = progressModel.getDownloadSpeed();
                 final double d = bd.doubleValue();
@@ -200,12 +200,15 @@ public class TabDashboardFragment extends Fragment {
                 //test.setText(""+formatFileSize(d));
 
 
-                if (progressModel.getProgressDownload() == 100f) {
+
+                if (progressModel.getProgressDownload() > 99.90) {
                     //test.setText(""+formatFileSize(d));
                     String n = dlSpeed.getText().toString();
                     SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.clear();
                     editor.putString(Data, n);
                     editor.commit();
+                   // dlSpeed.setText(""); debugging purposes
                     // toStore = dlSpeed.getText().toString();
                 }
 
@@ -223,10 +226,11 @@ public class TabDashboardFragment extends Fragment {
 
         });
 
+
         btn.setOnClickListener((new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                builder.start("ftp://speedtest.tele2.net/1MB.zip", 1); //speedtest dl server : downloads 1mb file to determine speed
+                builder.start("ftp://speedtest.tele2.net/1MB.zip", 0); //speedtest dl server : downloads 1mb file to determine speed
             }
         }));
 
