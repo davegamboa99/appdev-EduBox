@@ -57,7 +57,6 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String username, password;
-                Account acc = new Account();
 
                 username = String.valueOf(editTextUsername.getText());
                 password = String.valueOf(editTextPassword.getText());
