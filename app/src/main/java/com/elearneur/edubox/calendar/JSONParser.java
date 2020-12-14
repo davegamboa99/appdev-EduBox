@@ -10,7 +10,7 @@ import java.util.Scanner;
 import com.google.gson.*;
 
 public class JSONParser {
-    private static final String IP = "192.168.254.101:8000"; //"monching.pythonanywhere.com";
+    private static final String IP = "monching.pythonanywhere.com";
     private static final Gson gson = new Gson();
 
     private static String getJSON(String urlString) throws IOException {

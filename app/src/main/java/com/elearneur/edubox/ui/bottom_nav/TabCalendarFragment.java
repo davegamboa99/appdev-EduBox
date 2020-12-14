@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.elearneur.edubox.R;
 import com.elearneur.edubox.calendar.Account;
@@ -100,6 +101,17 @@ public class TabCalendarFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.activity_personal_calendar, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
+
+        initPcal();
+        if (pcal.getAccount() == null){
+            Account acc = (Account) getActivity().getIntent().getSerializableExtra("account");
+            pcal.setAccount(acc);
+            try {
+                pcal.saveCalendar(getContext());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         Dates2 dates = new Dates2();
         ImageView nextMonth = view.findViewById(R.id.nextMonth);
@@ -190,6 +202,10 @@ public class TabCalendarFragment extends Fragment {
         Intent intent;
         switch (item.getItemId()){
             case R.id.toolbar_groups:
+                if (pcal.getAccount() == null){
+                    Toast.makeText(getContext(), "You need to login before using this feature.", Toast.LENGTH_LONG).show();
+                    break;
+                }
                 intent = new Intent(getContext(), Groups.class);
                 intent.putExtra("userId", pcal.getAccount().getId());
                 startActivity(intent);
@@ -218,9 +234,6 @@ public class TabCalendarFragment extends Fragment {
             pcal = PCalendar.loadCalendar(getContext());
         } catch (IOException e) {
             pcal = new PCalendar();
-            Account acc = pcal.getAccount();
-            acc.setId(1);
-            acc.setUsername("Monching");
             try {
                 pcal.saveCalendar(getContext());
             } catch (IOException ioException) {
@@ -228,9 +241,6 @@ public class TabCalendarFragment extends Fragment {
             }
         } catch (ClassNotFoundException e) {
             pcal = new PCalendar();
-            Account acc = pcal.getAccount();
-            acc.setId(1);
-            acc.setUsername("Monching");
             try {
                 pcal.saveCalendar(getContext());
             } catch (IOException ioException) {

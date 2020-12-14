@@ -1,10 +1,10 @@
-package com.elearneur.edubox.calendar;
+package com.elearneur.edubox.notifications.helper;
 
-public class Event {
+public class EventTest {
     private String date, time, title, info, contentType, timeRange;
     private boolean read, finished;
 
-    public Event(String date, String time, String title, String info, String contentType, String timeRange, boolean read , boolean finished) {
+    public EventTest(String date, String time, String title, String info, String contentType, String timeRange, boolean read , boolean finished) {
         this.date = date;
         this.time = time;
         this.title = title;

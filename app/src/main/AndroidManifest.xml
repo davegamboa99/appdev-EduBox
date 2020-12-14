@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.elearneur.edubox">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
 
     <application
         android:allowBackup="true"
@@ -15,9 +19,23 @@
         <activity android:name=".login.Register" android:theme="@style/Theme.EduBox.Fullscreen"/>
         <activity android:name=".login.Login" android:theme="@style/Theme.EduBox.Fullscreen"/>
 
-        <activity android:name=".calendar.Test"></activity>
-        <activity android:name=".calendar.NotificationView" />
-        <activity android:name=".calendar.Notifications" />
+        <!-- Notifications Activity -->
+        <activity android:name=".notifications.NotificationView"/>
+        <service android:name=".notifications.helper.VoiceNotification"
+            android:exported="true"
+            android:enabled="true"/>
+
+        <receiver
+            android:name=".notifications.helper.ReminderNotification"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.TTS_SERVICE" />
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".calendar.GroupCalendar"
             android:theme="@style/Theme.EduBox.NoActionBar"

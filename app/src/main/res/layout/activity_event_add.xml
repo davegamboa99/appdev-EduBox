@@ -67,7 +67,7 @@
                     android:drawableStart="@drawable/custom_ic_time"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:hint="Time (HH:MM am/pm) *"
+                    android:hint="Time (HH:MM AM/PM) *"
                     android:inputType="textPersonName|time"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />

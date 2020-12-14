@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -12,9 +13,17 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.elearneur.edubox.MainActivityMenu;
 import com.elearneur.edubox.R;
+import com.elearneur.edubox.calendar.Account;
+import com.elearneur.edubox.calendar.JSONParser;
+import com.elearneur.edubox.calendar.PCalendar;
+import com.elearneur.edubox.calendar.PersonalCalendar;
+import com.vishnusivadas.advanced_httpurlconnection.PutData;
+
+import java.io.IOException;
 
 public class Login extends AppCompatActivity {
     EditText editTextUsername, editTextPassword;
@@ -26,6 +35,20 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        try { // goto MainActivityMenu if account is already available
+            PCalendar pcal = PCalendar.loadCalendar(Login.this);
+            if (pcal != null && pcal.getAccount() != null){
+                Intent intent = new Intent(Login.this, MainActivityMenu.class);
+                startActivity(intent);
+                finish();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         editTextUsername = (EditText) findViewById(R.id.username_login);
         editTextPassword = (EditText) findViewById(R.id.password_login);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
@@ -38,56 +61,54 @@ public class Login extends AppCompatActivity {
                 username = String.valueOf(editTextUsername.getText());
                 password = String.valueOf(editTextPassword.getText());
 
-                Intent intent = new Intent(Login.this, MainActivityMenu.class);
-                startActivity(intent);
-                finish();
-
-                /*
-                if(!username.equals("") && !password.equals("")){
-
-
-                    Handler handler = new Handler();
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            //Starting Write and Read data with URL
-                            //Creating array for parameters
-                            String[] field = new String[2];
-                            field[0] = "username";
-                            field[1] = "password";
-                            //Creating array for data
-                            String[] data = new String[2];
-                            data[0] = username;
-                            data[1] = password;
-                            PutData putData = new PutData("http://192.168.1.4/edubox/login.php", "POST", field, data);
-                            if (putData.startPut()) {
-                                if (putData.onComplete()) {
-                                    String result = putData.getResult();
-                                    if(result.equals("Login Successfully")){
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), Welcome.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            //End Write and Read data with URL
+                Toast toast1 = Toast.makeText(Login.this, "Wrong credentials!", Toast.LENGTH_SHORT);
+                Toast toast2 = Toast.makeText(Login.this, "Welcome!", Toast.LENGTH_LONG);
+                Thread thread = new Thread(new Runnable(){
+                    @Override
+                    public void run(){
+                        Account acc = null;
+                        try {
+                            acc = JSONParser.getAccount(username, password);
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    });
+
+                        if (acc != null){ // if not working, try !acc.isEmpty()
+                            Intent intent = new Intent(getApplicationContext(), MainActivityMenu.class);
+                            intent.putExtra("account", acc);
+                            System.out.println("Account = " + acc);
+                            toast2.setText("Welcome " + acc.getUsername() + "!");
+                            toast2.show();
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            toast1.show();
+                        }
+                    }
+                });
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), "All fields are required", Toast.LENGTH_SHORT).show();
-                }
-                 */
+
             }
         });
 
+
+        TextView tv01 = (TextView) this.findViewById(R.id.textView01);
         TextView tv02 = (TextView) this.findViewById(R.id.textView02);
         TextView tv3 = (TextView) this.findViewById(R.id.textView3);
+
+        tv01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, MainActivityMenu.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
         tv02.setOnClickListener(new View.OnClickListener() {

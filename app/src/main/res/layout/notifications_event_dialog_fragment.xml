@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/event_details"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/dialogEventTitle"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/dialogEventTitle"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dialogEventDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialogEventDate" />
+
+            <TextView
+                android:id="@+id/dialogEventTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialogEventTime" />
+
+            <TextView
+                android:id="@+id/dialogEventType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialogEventType" />
+
+            <TextView
+                android:id="@+id/dialogEventInfo"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:text="@string/dialogEventInfo" />
+
+            <TextView
+                android:id="@+id/dialogEventSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialogEventSpeed" />
+
+            <TextView
+                android:id="@+id/dialogEventData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialogEventData" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="33dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnDialogView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/btnDialogView" />
+
+                <Button
+                    android:id="@+id/btnDialogFinish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/btnDialogFinish" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

@@ -3,9 +3,16 @@ package com.elearneur.edubox.calendar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +24,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.elearneur.edubox.R;
+import com.elearneur.edubox.notifications.helper.ReminderNotification;
 
 import java.util.Calendar;
 
@@ -27,11 +35,13 @@ import java.util.TreeSet;
 
 public class EventAdd extends AppCompatActivity {
     private com.elearneur.edubox.calendar.Calendar cal;
+    String evt_title, evt_date, evt_time, evt_type, evt_note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_add);
+        createNotificationChannel(); //for notifications
 
         Toolbar toolbar;
         EditText title, date, time, duration, note;
@@ -120,8 +130,8 @@ public class EventAdd extends AppCompatActivity {
         setTimeListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                String amPm = "am";
-                if (hourOfDay >= 12) amPm = "pm";
+                String amPm = "AM";
+                if (hourOfDay >= 12) amPm = "PM";
                 if (hourOfDay >= 13){
                     hourOfDay -= 12;
                 } else if (hourOfDay == 0){
@@ -156,7 +166,7 @@ public class EventAdd extends AppCompatActivity {
             public void onClick(View v) {
                 //instantiate an event
                 CalEvent evt;
-                String evt_title, evt_date, evt_time, evt_type, evt_note;
+
                 Float evt_duration;
                 evt_title = title.getText().toString();
                 evt_date = date.getText().toString();
@@ -201,6 +211,12 @@ public class EventAdd extends AppCompatActivity {
                 evt_duration = Float.parseFloat(evt_duration_string);
                 evt_note = note.getText().toString();
                 evt = new CalEvent(evt_title, evt_date, evt_time, evt_type, evt_duration, evt_note);
+
+                //for notifications
+
+                setAlarm(DateTimeConverter(evt_date,evt_time));
+                Log.d("Alarm", "Alarm Set"+DateTimeConverter(evt_date,evt_time));
+
 
                 PCalendar pcal = deserializePCal();
                 if (cal instanceof PCalendar){
@@ -315,4 +331,69 @@ public class EventAdd extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void setAlarm(long timeInMillis) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        Intent intent = new Intent(getApplicationContext(), ReminderNotification.class);
+        intent.putExtra("eventTitle",evt_title);
+        intent.putExtra("eventContent",evt_type);
+        intent.putExtra("eventInfo",evt_note);
+        intent.putExtra("eventTime",evt_time);
+        intent.putExtra("eventDate",evt_date);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP,timeInMillis,pendingIntent);
+        }
+        else{
+            alarmManager.set(AlarmManager.RTC_WAKEUP,timeInMillis,pendingIntent);
+        }
+
+    }
+
+    private  void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "Notification";
+            String description = "test";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notify", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private long DateTimeConverter(String date, String time){
+        Calendar cal = Calendar.getInstance();
+
+        //date "YYYY-MM-DD"
+        String[] parts = date.split("-", 3);
+        int year = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]) - 1;
+        int dayOfMonth = Integer.parseInt(parts[2]);
+
+        //time "HH:MM AA"
+        parts = time.split(":", 2);
+        int hour = Integer.parseInt(parts[0]);
+        parts = parts[1].split(" ", 2);
+        int minute = Integer.parseInt(parts[0]);
+        if (parts[1].equals("PM")){
+            if (hour != 12) hour += 12;
+        } else {
+            if (hour == 12) hour = 0;
+        }
+
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, 0);
+
+        return cal.getTimeInMillis();
+    }
+
 }

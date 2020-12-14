@@ -18,7 +18,7 @@ public class PCalendar extends Calendar {
     public PCalendar(){
         groups = new TreeSet<>();
         ids = new TreeSet<>();
-        account = new Account();
+//        account = new Account();
         isShareable = false;
     }
 
@@ -54,6 +54,10 @@ public class PCalendar extends Calendar {
 
     public Account getAccount(){
         return account;
+    }
+
+    public void setAccount(Account account){
+        this.account = account;
     }
 
     public int generateId(){

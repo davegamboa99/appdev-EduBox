@@ -36,12 +36,7 @@
     <string name="read">read</string>
     <string name="border">border</string>
     <string name="textview">TextView</string>
-    <string name="event_title">Event Title</string>
-    <string name="event_date">Event Date</string>
-    <string name="event_time">Event Time</string>
-    <string name="event_content">Event Content</string>
-    <string name="event_info">Event Info</string>
-    <string name="event_button">Event Button</string>
+
     <string name="number_picker_formatter" />
     <string name="time">07:30 am</string>
     <string name="progressCircle">TODO</string>
@@ -62,4 +57,22 @@
     <string name="password">Password</string>
     <string name="full_name">Full Name</string>
     <string name="email">Email</string>
+    <!-- Notification -->
+    <string name="notification_border_bottom" />
+    <string name="notification_read_block_border" />
+    <string name="event_title">Event Title</string>
+    <string name="event_date">Event Date</string>
+    <string name="event_time">Event Time</string>
+    <string name="event_content">Event Content</string>
+    <string name="event_info">Event Info</string>
+    <string name="dialogEventTitle">Zoom Meeting</string>
+    <string name="dialogEventDate">Date: 13 November 2020</string>
+    <string name="dialogEventTime">Time: 09:30 am</string>
+    <string name="dialogEventType">Type: Video Meeting</string>
+    <string name="dialogEventSpeed">Min. Speed Requirement: 800 kbps</string>
+    <string name="dialogEventData">Min. Data Consumption: 200 mb</string>
+    <string name="dialogEventInfo">Note: Presentation of ERD and Class Diagram.</string>
+    <string name="btnDialogView">View</string>
+    <string name="btnDialogFinish">Finish</string>
+    <!--Adrian string-->
 </resources>
