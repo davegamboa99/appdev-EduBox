@@ -53,6 +53,7 @@ public class Register extends AppCompatActivity {
 
                 Toast toast1 = Toast.makeText(Register.this, "Success!", Toast.LENGTH_LONG);
                 Toast toast2 = Toast.makeText(Register.this, "Unsuccessful!", Toast.LENGTH_SHORT);
+
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
