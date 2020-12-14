@@ -72,7 +72,7 @@ public class GroupCalendar extends AppCompatActivity {
         dayPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Log.d("asda", String.format(Locale.US, "oldVal: %d, newVal: %d", oldVal, newVal));
+//                Log.d("asda", String.format(Locale.US, "oldVal: %d, newVal: %d", oldVal, newVal));
                 dates.setCurrentDate(newVal);
                 date = dates.getDateString();
                 dayWeek.setText(dates.getCurrentDayOfWeek());
@@ -89,6 +89,8 @@ public class GroupCalendar extends AppCompatActivity {
                 monthYear.setText(dates.getCurrentMonthYear());
                 dayWeek.setText(dates.getCurrentDayOfWeek());
                 initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
+                date = dates.getDateString();
+                loadEvents();
             }
         });
         prevMonth.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +100,8 @@ public class GroupCalendar extends AppCompatActivity {
                 monthYear.setText(dates.getCurrentMonthYear());
                 dayWeek.setText(dates.getCurrentDayOfWeek());
                 initDayPicker(dayPicker, dates.getMinDay(), dates.getMaxDay(), dates.getCurrentDay());
+                date = dates.getDateString();
+                loadEvents();
             }
         });
 
@@ -151,7 +155,7 @@ public class GroupCalendar extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            JSONParser.removeMember(gcal, acc.toMemberData());
+                            String s = JSONParser.removeMember(gcal, acc.toMemberData());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -204,7 +208,6 @@ public class GroupCalendar extends AppCompatActivity {
         TreeSet<CalEvent> evts = gcal.getEvents();
         if (evts != null){
             for (CalEvent evt : evts){
-                System.out.println("EVENT = " + evt);
                 if (!date.equals(evt.getDate())) continue;
 
                 LinearLayout ll_time = (LinearLayout) inflater.inflate(R.layout.events_item_time, null);
@@ -242,7 +245,6 @@ public class GroupCalendar extends AppCompatActivity {
                         edit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                System.out.println("EVENT = " + evt);
                                 Intent intent = new Intent(GroupCalendar.this, EventAdd.class);
                                 intent.putExtra("calendar", gcal);
                                 intent.putExtra("event", evt);
