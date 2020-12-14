@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.elearneur.edubox.R;
 import com.elearneur.edubox.calendar.Account;
 import com.elearneur.edubox.calendar.JSONParser;
+import com.google.gson.Gson;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 import java.io.IOException;
@@ -41,21 +42,44 @@ public class Register extends AppCompatActivity {
                 final String fullname, email, username, password;
                 Account acc = new Account();
 
-                fullname = String.valueOf(editTextFullname.getText());
+                fullname = String.valueOf(editTextFullname.getText()); // to be added in models
                 email = String.valueOf(editTextEmail.getText());
                 username = String.valueOf(editTextUsername.getText());
                 password = String.valueOf(editTextPassword.getText());
 
+                acc.setUsername(username);
+                acc.setEmail(email);
+                acc.setPassword(password);
+
+                Toast toast1 = Toast.makeText(Register.this, "Success!", Toast.LENGTH_LONG);
+                Toast toast2 = Toast.makeText(Register.this, "Unsuccessful!", Toast.LENGTH_SHORT);
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            String s = JSONParser.postAccount(acc);
+                            String jsonResponse = JSONParser.postAccount(acc);
+                            System.out.println("RESPONSE JSON = " + jsonResponse);
+                            Gson gson = new Gson();
+                            Account acc2 = gson.fromJson(jsonResponse, Account.class); // turn response into account instance/s
+                            if (acc2!= null && acc2.getId() != 0){ // check if the response is intended for Account.class (id starts at 1 in the server)
+                                Intent intent = new Intent(Register.this, Login.class);
+                                toast1.show();
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                toast2.show();
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                 });
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
