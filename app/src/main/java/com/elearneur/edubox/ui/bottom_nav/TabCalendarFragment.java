@@ -292,8 +292,35 @@ public class TabCalendarFragment extends Fragment {
                         event_date.setText("Date: " + evt.getDate());
                         event_time.setText("Time: " + evt.getTime());
                         event_type.setText("Type: " + evt.getContentType());
-                        event_speed.setText("Min. Speed Requirement: TBC"); //to be calculated
-                        event_data.setText("Min. Data Consumption: TBC");
+                        String speedReq = "Min. Speed Requirement: ";
+                        double dataReq;
+                        switch (evt.getContentType()){
+                            case "Text/Image":
+                                speedReq += "200 kbps";
+                                dataReq = 200;
+                                break;
+                            case "Video Stream":
+                                speedReq += "800 kbps";
+                                dataReq = 800;
+                                break;
+                            case "Video Call":
+                                speedReq += "1 mbps";
+                                dataReq = 1024;
+                                break;
+                            case "Doc Collab":
+                                speedReq += "600 kbps";
+                                dataReq = 600;
+                                break;
+                            default:
+                                speedReq += "0 kbps";
+                                dataReq = 0;
+                                break;
+                        }
+                        event_speed.setText(speedReq);
+                        dataReq = dataReq * evt.getDuration() * 60 / 8; // kb/s * hours * (60 sec / 1 hour) * (1 byte / 8 bits)
+                        dataReq /= 1024; // in MB
+                        String dr = String.format("%.2f", dataReq);
+                        event_data.setText("Min. Data Consumption: " + dr + " MB");
                         event_note.setText("Note: " + evt.getNote());
 
                         edit.setOnClickListener(new View.OnClickListener() {
@@ -379,8 +406,35 @@ public class TabCalendarFragment extends Fragment {
                                 event_date.setText("Date: " + evt.getDate());
                                 event_time.setText("Time: " + evt.getTime());
                                 event_type.setText("Type: " + evt.getContentType());
-                                event_speed.setText("Min. Speed Requirement: TBC"); //to be calculated
-                                event_data.setText("Min. Data Consumption: TBC");
+                                String speedReq = "Min. Speed Requirement: ";
+                                double dataReq;
+                                switch (evt.getContentType()){
+                                    case "Text/Image":
+                                        speedReq += "200 kbps";
+                                        dataReq = 200;
+                                        break;
+                                    case "Video Stream":
+                                        speedReq += "800 kbps";
+                                        dataReq = 800;
+                                        break;
+                                    case "Video Call":
+                                        speedReq += "1 mbps";
+                                        dataReq = 1024;
+                                        break;
+                                    case "Doc Collab":
+                                        speedReq += "600 kbps";
+                                        dataReq = 600;
+                                        break;
+                                    default:
+                                        speedReq += "0 kbps";
+                                        dataReq = 0;
+                                        break;
+                                }
+                                event_speed.setText(speedReq);
+                                dataReq = dataReq * evt.getDuration() * 60 / 8; // kb/s * hours * (60 sec / 1 hour) * (1 byte / 8 bits)
+                                dataReq /= 1024; // in MB
+                                String dr = String.format("%.2f", dataReq);
+                                event_data.setText("Min. Data Consumption: " + dr + " MB");
                                 event_note.setText("Note: " + evt.getNote());
 
                                 edit.setOnClickListener(new View.OnClickListener() {
