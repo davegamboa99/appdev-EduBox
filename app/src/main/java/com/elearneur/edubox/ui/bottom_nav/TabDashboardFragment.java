@@ -39,6 +39,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -150,6 +151,7 @@ public class TabDashboardFragment extends Fragment {
 
         graphView.getViewport().setXAxisBoundsManual(true); //enable custom x-axis items
         graphView.getViewport().setYAxisBoundsManual(true); //enable custom y-axis items
+        graphView.getViewport().setScalable(true);
 
         graphView.getViewport().setMinX(1); //x-axis number of items start
         graphView.getViewport().setMaxX(6);    //x-axis number of items end
@@ -181,6 +183,20 @@ public class TabDashboardFragment extends Fragment {
         dateToday.setText("Today, " + date_n);
 
 
+        TextView time1 = (TextView) view.findViewById(R.id.time1);
+        TextView time2 = (TextView) view.findViewById(R.id.time2);
+        TextView time3 = (TextView) view.findViewById(R.id.time3);
+        TextView time4 = (TextView) view.findViewById(R.id.time4);
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+        time1.setText(formatTime(currentHour+1));
+        time2.setText(formatTime(currentHour+2));
+        time3.setText(formatTime(currentHour+3));
+        time4.setText(formatTime(currentHour+4));
+
+
+
+
 
 
 
@@ -189,8 +205,8 @@ public class TabDashboardFragment extends Fragment {
             @Override
             public void onDownloadProgress(int count, final ProgressionModel progressModel) {
 
-                BigDecimal bigDecimal = new BigDecimal("" + progressModel.getDownloadSpeed());
-                float finalDownload = (bigDecimal.longValue() / 1000000);
+//                BigDecimal bigDecimal = new BigDecimal("" + progressModel.getDownloadSpeed());
+//                float finalDownload = (bigDecimal.longValue() / 1000000);
 
                 BigDecimal bd = progressModel.getDownloadSpeed();
                 final double d = bd.doubleValue();
@@ -200,12 +216,15 @@ public class TabDashboardFragment extends Fragment {
                 //test.setText(""+formatFileSize(d));
 
 
-                if (progressModel.getProgressDownload() == 100f) {
+
+                if (progressModel.getProgressDownload() > 99.90) {
                     //test.setText(""+formatFileSize(d));
                     String n = dlSpeed.getText().toString();
                     SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.clear();
                     editor.putString(Data, n);
                     editor.commit();
+                   // dlSpeed.setText(""); debugging purposes
                     // toStore = dlSpeed.getText().toString();
                 }
 
@@ -223,10 +242,11 @@ public class TabDashboardFragment extends Fragment {
 
         });
 
+
         btn.setOnClickListener((new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                builder.start("ftp://speedtest.tele2.net/1MB.zip", 1); //speedtest dl server : downloads 1mb file to determine speed
+                builder.start("ftp://speedtest.tele2.net/1MB.zip", 0); //speedtest dl server : downloads 1mb file to determine speed
             }
         }));
 
@@ -282,6 +302,25 @@ public class TabDashboardFragment extends Fragment {
         }
 
         return hrSize;
+    }
+
+    public static String formatTime(int time){
+
+        String strTime = "";
+        int wholeTime = 24;
+        int tempTime = 0;
+        int newTime = 0;
+        if(time>12){
+            tempTime = wholeTime - time;
+            newTime = 12 - tempTime;
+            strTime = Integer.toString(newTime)+":00 PM";
+        }
+        else{
+            newTime = time;
+            strTime = Integer.toString(newTime)+":00 AM";
+        }
+
+        return strTime;
     }
 
 }

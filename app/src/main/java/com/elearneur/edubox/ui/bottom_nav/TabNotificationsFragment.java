@@ -1,5 +1,11 @@
 package com.elearneur.edubox.ui.bottom_nav;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,10 +22,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elearneur.edubox.R;
+import com.elearneur.edubox.calendar.CalEvent;
+import com.elearneur.edubox.calendar.GCalendar;
+import com.elearneur.edubox.calendar.PCalendar;
 import com.elearneur.edubox.notifications.helper.EventTest;
 import com.elearneur.edubox.notifications.helper.NotificationAdaptor;
+import com.elearneur.edubox.notifications.helper.ReminderNotification;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,10 +89,11 @@ public class TabNotificationsFragment extends Fragment {
 
     }
 
-    ArrayList<EventTest> events, completedEvents;
+    ArrayList<CalEvent> eventList, notCompletedEventList, completedEventList;
     RecyclerView notificationRecyclerView, completedNotificationRecyclerView;
     RecyclerView.LayoutManager notificationLayoutManager, completedNotificationLayoutManager;
     RecyclerView.Adapter notificationAdapter, completedNotificationAdapter;
+    public static PCalendar pcal;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,55 +102,84 @@ public class TabNotificationsFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Notifications");
 
 
+        try{
+            pcal = PCalendar.loadCalendar(getContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        events = new ArrayList<EventTest>();
-        events.add(new EventTest("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", false, false));
-        events.add(new EventTest("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", false, false));
-        events.add(new EventTest("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", false, false));
-        events.add(new EventTest("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", false, false));
-        events.add(new EventTest("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", false, false));
-        events.add(new EventTest("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", false, false));
-        events.add(new EventTest("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", false, false));
-        events.add(new EventTest("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", false, false));
+        TreeSet<CalEvent> personalEvents = pcal.getEvents();
+        TreeSet<GCalendar> gcals = pcal.getGroups();
+        TreeSet<CalEvent> evts;
 
-        //finished dummy data
-        completedEvents = new ArrayList<EventTest>();
-        completedEvents.add(new EventTest("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", true, true));
-        completedEvents.add(new EventTest("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", true, true));
-        completedEvents.add(new EventTest("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", true, true));
-        completedEvents.add(new EventTest("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", true, true));
-        completedEvents.add(new EventTest("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", true, true));
-        completedEvents.add(new EventTest("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", true, true));
-        completedEvents.add(new EventTest("November 13, 2020", "9:15 AM", "Application Development", "Zoom Meeting starting soon at 9:30, 13 November 2020.", "Calendar", "2 hours", true, true));
-        completedEvents.add(new EventTest("November 05, 2020", "11:36 AM", "Data Plan", "Your 200 MB data will expire tomorrow.", "Dashboard", "0 hours", true, true));
+
+        eventList = new ArrayList<>();
+        notCompletedEventList = new ArrayList<>();
+        completedEventList = new ArrayList<>();
+
+        for(CalEvent event: personalEvents) {
+            eventList.add(event);
+        }
+
+        for(GCalendar gcal : gcals){
+            evts = gcal.getEvents();
+            if (evts != null){
+                for(CalEvent event: evts) {
+                    eventList.add(event);
+                }
+            }
+        }
+        Collections.sort(eventList, new Comparator<CalEvent>() {
+            DateFormat dateAndTime = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+            @Override
+            public int compare(CalEvent o1, CalEvent o2) {
+                try{
+                    return dateAndTime.parse(o1.getDate()+' '+ o1.getTime()).compareTo(dateAndTime.parse(o2.getDate()+' '+ o2.getTime()));
+                } catch (ParseException e){
+                    throw new IllegalArgumentException(e);
+                }
+
+            }
+        });
+
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH) +1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String current = Integer.toString(calendar.get(Calendar.YEAR)) +'-'+month+'-'+day;
+
+
+
+        for(CalEvent evt: eventList){
+            if(evt.getDate().compareTo(current) >= 0){
+                notCompletedEventList.add(evt);
+
+            }
+            else{
+                completedEventList.add(evt);
+            }
+        }
+
 
         //event list
         notificationRecyclerView = view.findViewById(R.id.eventList);
         notificationRecyclerView.setHasFixedSize(true);
-
         notificationLayoutManager = new LinearLayoutManager(view.getContext());
         notificationRecyclerView.setLayoutManager(notificationLayoutManager);
-
-        notificationAdapter = new NotificationAdaptor(events);
+        notificationAdapter = new NotificationAdaptor(getContext(), pcal, notCompletedEventList);
         notificationRecyclerView.setAdapter(notificationAdapter);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         //completed event list
         completedNotificationRecyclerView = view.findViewById(R.id.eventListCompleted);
         completedNotificationRecyclerView.setHasFixedSize(true);
-
         completedNotificationLayoutManager = new LinearLayoutManager(view.getContext());
         completedNotificationRecyclerView.setLayoutManager(completedNotificationLayoutManager);
-
-        completedNotificationAdapter = new NotificationAdaptor(completedEvents);
+        completedNotificationAdapter = new NotificationAdaptor(getContext(), pcal, completedEventList);
         completedNotificationRecyclerView.setAdapter(completedNotificationAdapter);
-
         return view;
     }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -170,4 +218,5 @@ public class TabNotificationsFragment extends Fragment {
         Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
         return true;
     }
+
 }

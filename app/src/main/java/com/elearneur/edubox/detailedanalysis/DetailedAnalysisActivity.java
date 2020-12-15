@@ -3,6 +3,8 @@ package com.elearneur.edubox.detailedanalysis;
 import android.os.Bundle;
 
 import com.elearneur.edubox.R;
+import com.elearneur.edubox.calendar.CalEvent;
+import com.elearneur.edubox.calendar.PCalendar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -16,6 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.elearneur.edubox.detailedanalysis.ui.main.SectionsPagerAdapter;
+
+import java.io.IOException;
+import java.util.TreeSet;
 
 public class DetailedAnalysisActivity extends AppCompatActivity {
 

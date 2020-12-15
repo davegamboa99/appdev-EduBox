@@ -21,12 +21,17 @@
 
         <!-- Notifications Activity -->
         <activity android:name=".notifications.NotificationView"/>
-        <service android:name=".notifications.helper.VoiceNotification"/>
+        <service android:name=".notifications.helper.VoiceNotification"
+            android:exported="true"
+            android:enabled="true"/>
+
         <receiver
             android:name=".notifications.helper.ReminderNotification"
             android:enabled="true"
             android:exported="true">
+
             <intent-filter>
+                <action android:name="android.intent.action.TTS_SERVICE" />
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
